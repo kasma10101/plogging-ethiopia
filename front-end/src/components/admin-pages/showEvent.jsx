@@ -82,7 +82,7 @@ return formattedDate
                   {formatter(member.date)}
                 </td>
                 <td className="px-6 py-4">
-                <img
+                <img className='max-h-20 min-h-20 '
                 src={`http://localhost:4532/${member.imageUrl}`}
                 alt={"member"}
               />    

@@ -118,6 +118,13 @@ const AddEvent= () => {
         }
         toast.success("AddEvent added successfully");
         setFormAppear(false);
+         setFormData({
+          name: '',
+          description:'',
+          date:'',
+          place:"",
+          image:null,
+        })
 
         // return res.data;
       } catch (e) {

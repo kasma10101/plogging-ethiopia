@@ -33,7 +33,7 @@ const responsive = {
 const sendFile = async (formData)=>{
   try{
     const res = await fetch(
-      "https://backend.ploggingethiopia.org/galleries/userUploadedFiles",
+      "http://localhost:4532/galleries/userUploadedFiles",
       {
         method: "POST",
         body: formData
@@ -54,7 +54,7 @@ const sendFile = async (formData)=>{
 
 const fetchGalleries = async () => {
   try{
-    const response = await fetch('https://backend.ploggingethiopia.org/galleries', {
+    const response = await fetch('http://localhost:4532/galleries', {
     });
 
     const data = await response.json();
@@ -144,7 +144,7 @@ const Gallery = ()=>{
           {
             !isLoading && error === null && gallery != null &&
             gallery.gallery.map((image, index)=> {
-              return <img className="w-full object-cover h-full" key={index} src={`https://backend.ploggingethiopia.org/${image.imageUrl}`} alt="garbage" />
+              return <img className="w-full object-cover h-full" key={index} src={`http://localhost:4532/${image.imageUrl}`} alt="garbage" />
             })
           }
         </Carousel>

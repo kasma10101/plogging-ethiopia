@@ -15,6 +15,7 @@ import shareIcon from "../../assets/share-icon.svg";
 import { useState } from "react";
 import axios from 'axios'
 import { toast } from "react-toastify";
+import Event from "./Event";
 
 const fetchBlogs = async () => {
   try{
@@ -277,7 +278,7 @@ const Landing = () => {
 
         <img src={founder} className="w-full h-full object-cover" alt={"Mr. Firew kefyalew"} />
       </section>
-
+       <Event />
       <section className="w-[90%] my-10 flex flex-col gap-10">
 
         <h1 className="text-3xl">
