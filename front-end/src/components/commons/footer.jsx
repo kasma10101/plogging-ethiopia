@@ -2,7 +2,10 @@ import facebook from "../../assets/social-media/facebook.png";
 import instagram from "../../assets/social-media/instagram.png";
 import whatsup from "../../assets/social-media/whatsup.png";
 import telegram from "../../assets/social-media/telegram.png"
+import youtube from "../../assets/social-media/youtube.png"
 import {Link} from "react-router-dom";
+import {useState} from "react";
+import {toast} from "react-toastify";
 
 const Footer = ()=>{
 
@@ -22,8 +25,26 @@ const Footer = ()=>{
     {
       icon: telegram,
       link: "https://t.me/ploggingethiopia"
+    },
+    {
+      icon: youtube,
+      link: "https://www.youtube.com/@plogging-ethiopia6643"
     }
   ];
+
+  const [email, setEmail] = useState("")
+
+  const handleSubmit = (e)=>{
+    e.preventDefault()
+    if (email === ""){
+      toast.error("Please fill the email field")
+      return
+    } else {
+      setEmail('')
+      toast.success("You are now subscribed")
+    }
+
+  }
 
   return (
     <footer className="w-full flex flex-col items-center bg-green-500/10">
@@ -34,16 +55,16 @@ const Footer = ()=>{
             Useful Links
           </h1>
 
-          <Link to="/">
+          <Link className="hover:text-green-500" to="/">
             Home
           </Link>
-          <Link to="/gallery">
+          <Link className="hover:text-green-500" to="/gallery">
             Gallery
           </Link>
-          <Link to="/blog">
+          <Link className="hover:text-green-500" to="/blog">
             Blog
           </Link>
-          <Link to="/contact">
+          <Link className="hover:text-green-500" to="/contact">
             Contact Us
           </Link>
         </div>
@@ -56,8 +77,12 @@ const Footer = ()=>{
             Sign up with your email address to receive news and updates.
           </p>
           <div className="flex items-center max-w-[400px] w-full">
-            <input type="email" className="p-2 rounded-l-md border-input border-2 w-1/2 border-r-0 focus:outline-0" />
-            <button className=" bg-green-500 hover:bg-green-700 border-2 border-input w-1/2 text-white font-bold py-2 px-4 rounded-r-md">
+            <input value={email} onChange={(e)=>{
+              setEmail(e.target.value)
+            }} type="email" className="p-2 rounded-l-md border-input border-2 w-1/2 border-r-0 focus:outline-0" />
+            <button
+              onClick={handleSubmit}
+              className=" bg-green-500 hover:bg-green-700 border-2 border-input w-1/2 text-white font-bold py-2 px-4 rounded-r-md">
               Submit
             </button>
           </div>
@@ -68,7 +93,7 @@ const Footer = ()=>{
             Social Media
           </h1>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             {
               socialMediaIcons.map((icon, index)=>(
                 <a key={index} href={icon.link}>
@@ -82,11 +107,11 @@ const Footer = ()=>{
       </section>
       <div className="w-full flex py-2 text-white items-center justify-around bg-green-500/80">
         <p>
-          Copyright © 202 Plogging-Ethiopia, All rights reserved.
+          Copyright © 2024 Plogging-Ethiopia, All rights reserved.
         </p>
 
         <p>
-          Powered by Kasma Tech Solution.
+          Powered by <a href="mailto:kasmasolution@gmail.com" className="hover:text-white/70 cursor-pointer">Kasma</a> Tech Solution.
         </p>
       </div>
 

@@ -15,7 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserUploaded from "./components/admin-pages/userUploadedDatas";
 import Profile from "./components/pages/profile";
-import AdminLogin from "./components/pages/admin-login";
+import Login from "./components/pages/login";
 
 function App() {
 
@@ -33,7 +33,7 @@ function App() {
               <Route path={"/gallery"} element={<Gallery />} />
               <Route path={"/contact"} element={<Contactus />} />
               <Route path={"/profile"} element={<Profile />} />
-              <Route path={"/admin-login"} element={<AdminLogin />} />
+              <Route path={"/login"} element={<Login />} />
               <Route path={"/admin"} element={<AdminPage />} >
                 <Route index path={"/admin/blogs"} element={<AdminBlogs />} />
                 <Route index path={"/admin/members"} element={<Members />} />

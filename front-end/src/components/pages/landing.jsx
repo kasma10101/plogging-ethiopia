@@ -123,7 +123,9 @@ const Landing = () => {
               Embark on ajourney of impact and sustainability with Plogging-Ethiopia! Astrailblazers in the movement for a greener Ethiopia, we are more thana voluntary initiative — we are a community dedicated totransforming lives and our environment, one stride at a time.
             </p>
             <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Read More +
+              <Link to={"/membership"} >
+                Read More +
+              </Link>
             </button>
           </div>
         </div>
@@ -255,48 +257,46 @@ const Landing = () => {
         }
         {
           !isLoading && error === null && blogs != null &&
-          <>
+          <div className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
             {
-              blogs.blogs.toSpliced(3, blogs.blogs.length).map((blog, index)=>{
+              blogs.blogs.map((blog, index)=>{
                 return (
-                  <div
-                    key={index}
-                    className="grid grid-cols-2 w-full place-items-center"
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "2fr 3fr"
-                    }}
-                  >
-                    <div className="flex flex-col gap-2">
-                      <img src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
-                      <div className="flex justify-between">
+                  <a href={blog.link ? blog.link : ""}>
+                    <div
+                      key={index}
+                      className="felx flexcol w-full place-items-center cursor-pointer"
+                    >
+                      <div className="flex flex-col gap-2 w-full max-w-[340px]">
+                        <img className="w-full" src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
+                        <div className="flex justify-between w-full">
+                          <p>
+                            {
+                              timeAgo(blog.createdAt)
+                            }
+                          </p>
+                          <span className="flex gap-2">
+                        <img src={shareIcon} alt={"share-icon"} />
+                        share
+                      </span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col justify-around h-fit py-4 gap-4">
+                        <h1 className="text-3xl font-semibold">
+                          {blog.title}
+                        </h1>
                         <p>
                           {
-                            timeAgo(blog.createdAt)
+                            blog.description
                           }
                         </p>
-                        <span className="flex gap-2">
-              <img src={shareIcon} alt={"share-icon"} />
-              share
-            </span>
                       </div>
                     </div>
-
-                    <div className="flex flex-col justify-around h-full">
-                      <h1 className="text-3xl font-semibold">
-                        {blog.title}
-                      </h1>
-                      <p>
-                        {
-                          blog.description
-                        }
-                      </p>
-                    </div>
-                  </div>
+                  </a>
                 )
               })
             }
-          </>
+          </div>
         }
 
       </section>

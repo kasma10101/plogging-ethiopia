@@ -4,6 +4,7 @@ import {useMutation} from "react-query";
 import {toast} from "react-toastify";
 import Loader from "../commons/loader";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 const createMember = async (member) => {
   try{
@@ -31,13 +32,15 @@ const Membership = ()=>{
         name: '',
         email: '',
         phoneNumber: '',
-        password: ''
+        password: '',
+        agree: false,
+        role: "user"
     });
 
   const mutation = useMutation(createMember);
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.email || !formData.phoneNumber || !formData.password){
+    if (!formData.name || !formData.email || !formData.phoneNumber || !formData.password || !formData.agree){
       toast.error("Please fill all the fields")
       return
     }
@@ -45,6 +48,14 @@ const Membership = ()=>{
     try{
       await mutation.mutateAsync(formData);
       toast.success("Member created successfully")
+      setFormData({
+        name: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        agree: false,
+        role: "user"
+      })
     } catch (e) {
       toast.error("An error occurred while creating member")
     }
@@ -56,7 +67,7 @@ const Membership = ()=>{
         // Update the form data based on the input type
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: type === 'file' ? files[0] : value,
+            [name]: type === 'file' ? files[0] : type === 'checkbox' ? !prevFormData.agree : value,
         }));
     };
 
@@ -137,17 +148,19 @@ const Membership = ()=>{
           </button>
 
           <div className="flex items-center gap-3">
-            <input type="checkbox" />
+            <input name="agree" checked={formData.agree} onChange={handleChange} type="checkbox" />
             <label>
               I agree to the terms and policy
             </label>
           </div>
 
-          <p className="w-full flex justify-center">
+          <p className="w-full flex justify-center gap-2">
             Already have an account?
-            <span className="text-green-500">
-              Login
-            </span>
+            <Link to={"/login"}>
+              <span className="text-green-500">
+                Login
+              </span>
+            </Link>
           </p>
 
         </form>

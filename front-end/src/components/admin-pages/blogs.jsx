@@ -76,6 +76,7 @@ const AdminBlogs = () => {
     title: '',
     description: '',
     image: null, // Use null or an initial value based on your needs
+    link: ''
   });
   const [formAppear, setFormAppear] = useState(false);
 
@@ -119,6 +120,7 @@ const AdminBlogs = () => {
     newFormData.append("description", formData.description);
     newFormData.append("image", formData.image);
     newFormData.append("title", formData.title);
+    newFormData.append("link", formData.link);
 
     try{
       addMutation.mutateAsync(newFormData)
@@ -160,6 +162,18 @@ const AdminBlogs = () => {
               type="text"
               name="title"
               value={formData.title}
+              onChange={handleChange}
+              className="p-2 rounded-md w-full border-input border-2" />
+          </div>
+
+          <div className="flex flex-col items-start w-full">
+            <label>
+              Link
+            </label>
+            <input
+              type="text"
+              name="link"
+              value={formData.link}
               onChange={handleChange}
               className="p-2 rounded-md w-full border-input border-2" />
           </div>
@@ -236,7 +250,7 @@ const AdminBlogs = () => {
               <div className="flex justify-between">
                 <button
                   onClick={()=>handleDelete(blog._id)}
-                  className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  className="w-full bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                   Delete
                 </button>
               </div>

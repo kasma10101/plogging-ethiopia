@@ -14,10 +14,14 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3
+    items: 4
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1024, min: 760 },
+    items: 3
+  },
+  largeMobile: {
+    breakpoint: { max: 760, min: 464 },
     items: 2
   },
   mobile: {
@@ -117,7 +121,7 @@ const Gallery = ()=>{
         </button>
       </div>
 
-      <div className="flex justify-around w-full gap-4  ">
+      <div className="flex justify-around w-full">
         {
           isLoading &&
           <h1 className="text-2xl">
@@ -126,16 +130,16 @@ const Gallery = ()=>{
         }
       </div>
 
-      <div className="flex justify-around w-full gap-4 ">
+      <div className="flex justify-around w-full">
         {
           error != null &&
           <h1 className="text-2xl">
-            Loading...
+            Error while loading gallery!
           </h1>
         }
       </div>
 
-      <div className="w-full">
+      <div className="w-full -mt-32">
         <Carousel containerClass="flex items-center" itemClass="mx-4" responsive={responsive}>
           {
             !isLoading && error === null && gallery != null &&

@@ -16,7 +16,7 @@ const Navbar = ()=>{
 
       <nav className="md:grid hidden w-2/3">
         <ul className="flex gap-10 justify-center w-full">
-          <li className="w-fit flex flex-col">
+          <li className="w-fit flex flex-col hover:text-green-500">
             <Link to={"/"}>
               Home
             </Link>
@@ -28,7 +28,7 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
+          <li  className="w-fit flex flex-col hover:text-green-500">
             <a href={"/#aboutus"}>
               About us
             </a>
@@ -40,7 +40,7 @@ const Navbar = ()=>{
               ""
             }
           </li>
-          <li className="w-fit flex flex-col">
+          <li className="w-fit flex flex-col hover:text-green-500">
             <Link to="/membership">
               Membership
             </Link>
@@ -52,7 +52,7 @@ const Navbar = ()=>{
               ""
             }
           </li>
-          <li className="w-fit flex flex-col">
+          <li className="w-fit flex flex-col hover:text-green-500">
             <Link to={"/gallery"}>
               Gallery
             </Link>
@@ -64,7 +64,7 @@ const Navbar = ()=>{
               ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
+          <li  className="w-fit flex flex-col hover:text-green-500">
             <Link to={"/blog"}>
               Blog
             </Link>
@@ -76,7 +76,7 @@ const Navbar = ()=>{
               ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
+          <li  className="w-fit flex flex-col hover:text-green-500">
             <Link to={"/contact"}>
               Contact
             </Link>
@@ -96,12 +96,18 @@ const Navbar = ()=>{
       <nav
         style={{
           display: show ? "grid" : "none"
-        }
-        }
-        className="md:hidden w-full absolute h-screen bg-white top-0 left-0 grid place-items-center">
+        }}
+        className="md:hidden w-full absolute z-20 h-screen bg-white top-0 left-0 grid place-items-center">
         <ul className="flex md:flex-row flex-col items-center gap-10 justify-center w-full">
-          <li className="w-fit flex flex-col">
-            <Link to={"/"}>
+          <li className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to={"/"}
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
               Home
             </Link>
             {
@@ -112,8 +118,14 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
-            <a href={"/#aboutus"}>
+          <li  className="w-fit flex flex-col hover:text-green-500">
+            <a
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+              href={"/#aboutus"}>
               About us
             </a>
             {
@@ -124,8 +136,15 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li className="w-fit flex flex-col">
-            <Link to="/membership">
+          <li className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to="/membership"
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
               Membership
             </Link>
             {
@@ -136,8 +155,15 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li className="w-fit flex flex-col">
-            <Link to={"/gallery"}>
+          <li className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to={"/gallery"}
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
               Gallery
             </Link>
             {
@@ -148,8 +174,15 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
-            <Link to={"/blog"}>
+          <li  className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to={"/blog"}
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
               Blog
             </Link>
             {
@@ -160,8 +193,15 @@ const Navbar = ()=>{
                 ""
             }
           </li>
-          <li  className="w-fit flex flex-col">
-            <Link to={"/contact"}>
+          <li  className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to={"/contact"}
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
               Contact
             </Link>
             {

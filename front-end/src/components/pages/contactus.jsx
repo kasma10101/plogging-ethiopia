@@ -6,6 +6,32 @@ import facebook from "../../assets/social-media/facebook.png";
 import instagram from "../../assets/social-media/instagram.png";
 import whatsup from "../../assets/social-media/whatsup.png";
 import telegram from "../../assets/social-media/telegram.png";
+import youtube from "../../assets/social-media/youtube.png";
+import {useState} from "react";
+import {useMutation} from "react-query";
+import {toast} from "react-toastify";
+import Loader from "../commons/loader";
+import {Link} from "react-router-dom";
+
+const createMember = async (form) => {
+  try{
+    const res = await fetch("https://backend.ploggingethiopia.org/members/contactus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form)});
+
+    if (!res.ok){
+      throw new Error("An error while sending message")
+    }
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
 
 const Contactus = ()=>{
 
@@ -25,8 +51,50 @@ const Contactus = ()=>{
     {
       icon: telegram,
       link: "https://t.me/ploggingethiopia"
+    },
+    {
+      icon: youtube,
+      link: "https://www.youtube.com/@plogging-ethiopia6643"
     }
   ];
+
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const mutation = useMutation(createMember);
+
+  const handleSubmit = async () => {
+    if (!formData.name || !formData.email || !formData.message){
+      toast.error("Please fill all the fields")
+      return
+    }
+
+    try{
+      await mutation.mutateAsync(formData);
+      toast.success("Message Delivered successfully")
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      })
+    } catch (e) {
+      toast.error("An error occurred while delivering message")
+    }
+  }
+
+  const handleChange = (event) => {
+    const { name, value, type, files } = event.target;
+
+    // Update the form data based on the input type
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]:  value,
+    }));
+  };
 
   return (
     <section className="flex flex-col items-center gap-20 w-[90%] pb-10" >
@@ -45,24 +113,31 @@ const Contactus = ()=>{
             <label>
               Full Name
             </label>
-            <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+            <input name="name" value={formData.name} onChange={handleChange} type="text" className="p-2 rounded-md w-full border-input border-2" />
           </div>
 
           <div className="flex flex-col items-start w-full">
             <label>
               Email
             </label>
-            <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+            <input name={"email"} value={formData.email} onChange={handleChange} type="text" className="p-2 rounded-md w-full border-input border-2" />
           </div>
 
           <div className="flex flex-col items-start w-full">
             <label>
               Message
             </label>
-            <textarea rows={5} className="p-2 rounded-md w-full border-input border-2" />
+            <textarea name={'message'} value={formData.message} onChange={handleChange} rows={5} className="p-2 rounded-md w-full border-input border-2" />
           </div>
 
-          <button className="bg-green-500 w-fit hover:bg-green-700 text-white font-bold py-2 px-6 rounded">
+          <button onClick={(e)=>{
+            e.preventDefault()
+            handleSubmit()
+          }} className="bg-green-500 w-fit hover:bg-green-700 text-white font-bold py-2 px-6 rounded">
+            {
+              mutation.isLoading &&
+              <Loader />
+            }
             Send
           </button>
         </form>
@@ -75,7 +150,9 @@ const Contactus = ()=>{
         </h3>
 
         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Being Member ->
+          <Link to={"/membership"}>
+            Being Member ->
+          </Link>
         </button>
       </div>
       </section>
@@ -118,7 +195,7 @@ const Contactus = ()=>{
           </div>
         </div>
 
-        <div className="flex place-self-center gap-10">
+        <div className="flex place-self-center items-center gap-10">
 
           <p>
             Social Media

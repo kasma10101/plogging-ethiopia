@@ -1,14 +1,12 @@
 import blogHeader from "../../assets/Blog-header.png"
-import story1 from "../../assets/story-1.png"
 import shareIcon from "../../assets/share-icon.svg"
 import FAQ from "../commons/FAQ";
 import {useQuery} from "react-query";
-import {useState} from "react";
-import ReactPaginate from "react-paginate";
+
 
 const fetchBlogs = async () => {
   try{
-    const response = await fetch("http://localhost:3001/blogs");
+    const response = await fetch("https://backend.ploggingethiopia.org/blogs");
     if (!response.ok) {
       throw new Error('Failed to update task completion');
     }
@@ -18,7 +16,6 @@ const fetchBlogs = async () => {
     throw new Error('Failed to update task completion');
   }
 }
-
 
 const Blog = ()=>{
 
@@ -62,48 +59,46 @@ const Blog = ()=>{
       }
       {
         !isLoading && error === null && blogs != null &&
-        <>
+        <div className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
           {
             blogs.blogs.map((blog, index)=>{
               return (
-                <div
-                  key={index}
-                  className="grid grid-cols-2 w-full place-items-center"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "2fr 3fr"
-                  }}
-                >
-                  <div className="flex flex-col gap-2">
-                    <img src={`http://localhost:3001/${blog.imageUrl}`} alt={"blog"} />
-                    <div className="flex justify-between">
+                <a href={blog.link ? blog.link : ""}>
+                  <div
+                    key={index}
+                    className="felx flexcol w-full place-items-center cursor-pointer"
+                  >
+                    <div className="flex flex-col gap-2 w-full max-w-[340px]">
+                      <img className="w-full" src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
+                      <div className="flex justify-between w-full">
+                        <p>
+                          {
+                            timeAgo(blog.createdAt)
+                          }
+                        </p>
+                        <span className="flex gap-2">
+                        <img src={shareIcon} alt={"share-icon"} />
+                        share
+                      </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col justify-around h-fit py-4 gap-4">
+                      <h1 className="text-3xl font-semibold">
+                        {blog.title}
+                      </h1>
                       <p>
                         {
-                          blog.createdAt
+                          blog.description
                         }
                       </p>
-                      <span className="flex gap-2">
-              <img src={shareIcon} alt={"share-icon"} />
-              share
-            </span>
                     </div>
                   </div>
-
-                  <div className="flex flex-col justify-around h-full">
-                    <h1 className="text-3xl font-semibold">
-                      {blog.title}
-                    </h1>
-                    <p>
-                      {
-                        blog.description
-                      }
-                    </p>
-                  </div>
-                </div>
+                </a>
               )
             })
           }
-        </>
+        </div>
       }
 
       <section className="w-full flex flex-col items-center">
@@ -112,6 +107,36 @@ const Blog = ()=>{
 
     </section>
   )
+}
+
+function timeAgo(timestamp) {
+  const currentDate = new Date();
+  const inputDate = new Date(timestamp);
+  const timeDifference = currentDate - inputDate;
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  if (seconds < 60) {
+    return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+  } else if (minutes < 60) {
+    return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+  } else if (hours < 24) {
+    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  } else if (days < 7) {
+    return `${days} day${days !== 1 ? 's' : ''} ago`;
+  } else if (weeks < 4) {
+    return `${weeks} week${weeks !== 1 ? 's' : ''} ago`;
+  } else if (months < 12) {
+    return `${months} month${months !== 1 ? 's' : ''} ago`;
+  } else {
+    return `${years} year${years !== 1 ? 's' : ''} ago`;
+  }
 }
 
 export default Blog;
