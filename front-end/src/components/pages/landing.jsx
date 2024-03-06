@@ -274,10 +274,9 @@ const Landing = () => {
                               timeAgo(blog.createdAt)
                             }
                           </p>
-                          <span className="flex gap-2">
-                        <img src={shareIcon} alt={"share-icon"} />
-                        share
-                      </span>
+                          <span className="flex items-center hover:text-green-600 text-green-400">
+                            Read More ->
+                          </span>
                         </div>
                       </div>
 
