@@ -1,30 +1,32 @@
-import {useMutation, useQuery} from "react-query";
+import { useMutation, useQuery } from "react-query";
 import Loader from "../commons/loader";
-import {useState} from "react";
-import {toast} from "react-toastify";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const fetchBlogs = async () => {
-  try{
+  try {
     const res = await fetch("https://backend.ploggingethiopia.org/blogs");
-    if (!res.ok){
-      throw new Error("An error occurred while fetching blogs")
+    if (!res.ok) {
+      throw new Error("An error occurred while fetching blogs");
     }
     const data = await res.json();
     return data;
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e);
   }
-
-}
+};
 
 const deleteBlog = async (id) => {
-  try{
-    const res = await fetch(`https://backend.ploggingethiopia.org/blogs/${id}`, {
-      method: "DELETE"
-    });
+  try {
+    const res = await fetch(
+      `https://backend.ploggingethiopia.org/blogs/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-    if (!res.ok){
-      throw new Error("An error occurred while deleting blog")
+    if (!res.ok) {
+      throw new Error("An error occurred while deleting blog");
     }
 
     const data = await res.json();
@@ -32,71 +34,76 @@ const deleteBlog = async (id) => {
   } catch (e) {
     throw new Error(e);
   }
-
-}
+};
 
 const AddBlog = async (blog) => {
-
-  try{
+  try {
     const res = await fetch(`https://backend.ploggingethiopia.org/blogs`, {
       method: "POST",
       body: blog,
     });
 
-    if (!res.ok){
-      throw new Error("Error while adding blog")
+    if (!res.ok) {
+      throw new Error("Error while adding blog");
     }
     const data = await res.json();
     return data;
   } catch (e) {
-    throw new Error(e)
+    throw new Error(e);
   }
-
-}
-
+};
+let updateId = ''
 const UpdateBlog = async (blog) => {
-
-  try{
-    const res = await fetch(`https://backend.ploggingethiopia.org/blogs/${blog._id}`, {
-      method: "PUT",
-      body: JSON.stringify(blog)
-    });
+  try {
+    const res = await fetch(
+      `https://backend.ploggingethiopia.org/blogs/${updateId}}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(blog),
+      }
+    );
 
     const data = await res.json();
     return data;
   } catch (e) {
-    return
+    return;
   }
-
-}
+};
 
 const AdminBlogs = () => {
-
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    image: null, // Use null or an initial value based on your needs
-    link: ''
-  });
-  const [formAppear, setFormAppear] = useState(false);
-
   const { data: blogs, isLoading, error } = useQuery("blogs", fetchBlogs);
   const mutation = useMutation(deleteBlog);
   const addMutation = useMutation(AddBlog);
   const updateMutation = useMutation(UpdateBlog);
+  // console.log(blogs,' here is my blog')
+  const [formData, setFormData] = useState({
+    title: "",
+    description:  "",
+    image: null, // Assuming you handle images through a file input, so it's okay to initialize as null
+    link:  "",
+});
+  const [formAppear, setFormAppear] = useState(false);
+  const [update,setUpdate] = useState(false)
+
+
 
   const handleDelete = async (id) => {
-    try{
+    try {
       await mutation.mutateAsync(id);
-      toast.success("blog deleted successfully")
+      toast.success("blog deleted successfully");
     } catch (e) {
-      toast.error("error ocured while deleting blog")
+      toast.error("error ocured while deleting blog");
     }
-  }
+  };
 
   const handleUpdate = async (blog) => {
-    await updateMutation.mutateAsync(blog)
-  }
+    try {
+      await updateMutation.mutateAsync(blog);
+      toast.success("blog updated successfully!");
+    } catch (error) {
+      toast.error("error occurred while updating");
+    }
+  };
 
   const handleChange = (event) => {
     const { name, value, type, files } = event.target;
@@ -104,173 +111,194 @@ const AdminBlogs = () => {
     // Update the form data based on the input type
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === 'file' ? files[0] : value,
+      [name]: type === "file" ? files[0] : value,
     }));
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    if (formData.description === "" || formData.title === "" || formData.image === null){
-      toast.error("Please provide the required information")
-      return
+    if (
+      formData.description === "" ||
+      formData.title === "") {
+      toast.error("Please provide the required information");
+      return;
     }
-    const newFormData = new FormData()
+    const newFormData = new FormData();
 
     newFormData.append("description", formData.description);
     newFormData.append("image", formData.image);
     newFormData.append("title", formData.title);
     newFormData.append("link", formData.link);
+    console.log(formData,'new formdata')
 
-    try{
-      addMutation.mutateAsync(newFormData)
-      toast.success("Blog added successfully");
-      setFormAppear(false);
+    try {
+      if(update){
+        updateMutation.mutateAsync(newFormData);
+        toast.success("Blog updated successfully");
+        setFormAppear(false);
+      }else{
+        addMutation.mutateAsync(newFormData);
+        toast.success("Blog added successfully");
+        setFormAppear(false);
+      }
+     
     } catch (e) {
-      toast.error("An error occurred while adding blog");
+      if(update){
+        toast.error("An error occurred while updating blog");
+      }else{
+        toast.error("An error occurred while adding blog");
+
+      }
     }
-  }
-
-
+  };
 
   return (
     <section className="w-full flex flex-col items-center gap-10">
-
-      <h1 className="text-5xl border-b-2 pb-4">
-        Blogs
-      </h1>
+      <h1 className="text-5xl border-b-2 pb-4">Blogs</h1>
 
       <button
-          onClick={()=>{setFormAppear(true)}}
-          className="w-fit bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+        onClick={() => {
+          setFormAppear(true);
+        }}
+        className="w-fit bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
       >
-          Add Blog
+        Add Blog
       </button>
 
       <div
         style={{
-          display: formAppear ? "grid" : "none"
+          display: formAppear ? "grid" : "none",
         }}
-        className="absolute h-screen top-0 bg-black/20 w-screen grid place-items-center">
+        className="absolute h-screen top-0 bg-black/20 w-screen grid place-items-center"
+      >
         <form className="w-full max-w-[400px] bg-white shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
-
           <div className="flex flex-col items-start w-full">
-            <label>
-              Title
-            </label>
+            <label>Title</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="p-2 rounded-md w-full border-input border-2" />
+              className="p-2 rounded-md w-full border-input border-2"
+            />
           </div>
 
           <div className="flex flex-col items-start w-full">
-            <label>
-              Link
-            </label>
+            <label>Link</label>
             <input
               type="text"
               name="link"
               value={formData.link}
               onChange={handleChange}
-              className="p-2 rounded-md w-full border-input border-2" />
+              className="p-2 rounded-md w-full border-input border-2"
+            />
           </div>
 
           <div className="flex flex-col items-start w-full">
-            <label>
-              Description
-            </label>
+            <label>Description</label>
             <textarea
               value={formData.description}
               onChange={handleChange}
-              name="description" rows={5} className="p-2 rounded-md w-full border-input border-2" />
+              name="description"
+              rows={5}
+              className="p-2 rounded-md w-full border-input border-2"
+            />
           </div>
 
           <div className="flex flex-col items-start w-full">
-            <label>
-              image
-            </label>
+            <label>image</label>
             <input
               onChange={handleChange}
               name="image"
               type="file"
-              className="p-2 rounded-md w-full border-input border-2" />
+              className="p-2 rounded-md w-full border-input border-2"
+            />
           </div>
 
           <button
+            
             onClick={handleSubmit}
-            className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
-            {
-              addMutation.isLoading &&
-              <Loader />
-            }
+            className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+          >
+            {addMutation.isLoading && <Loader />}
             Submit
           </button>
           <button
-              onClick={()=>{setFormAppear(false)}}
-              className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+            onClick={() => {
+              setFormAppear(false);
+            }}
+            className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
           >
-              Close Form
+            Close Form
           </button>
         </form>
       </div>
 
-      {
-        isLoading &&
+      {isLoading && (
         <div className="flex flex-col">
           <Loader />
-          <h1 className="text-4xl">
-            Loading...
-          </h1>
+          <h1 className="text-4xl">Loading...</h1>
         </div>
+      )}
 
-      }
+      {error && (
+        <h1 className="text-4xl">Error occurred while fetching data</h1>
+      )}
 
-      {
-        error &&
-        <h1 className="text-4xl">
-          Error occurred while fetching data
-        </h1>
-      }
-
-      {
-        !isLoading && error === null && blogs != null && blogs.blogs.map((blog, index) => (
+      {!isLoading &&
+        error === null &&
+        blogs != null &&
+        blogs.blogs.map((blog, index) => (
           <div
             key={index}
             className="grid grid-cols-2 w-full place-items-center"
             style={{
               display: "grid",
-              gridTemplateColumns: "2fr 3fr"
+              gridTemplateColumns: "2fr 3fr",
             }}
           >
             <div className="flex flex-col gap-2">
-              <img src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
+              <img
+                src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`}
+                alt={"blog"}
+              />
               <div className="flex justify-between">
                 <button
-                  onClick={()=>handleDelete(blog._id)}
-                  className="w-full bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  onClick={() => handleDelete(blog._id)}
+                  className="w-1/3 bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
                   Delete
+                </button>
+                <button
+                  onClick={() => {
+                    updateId = blog._id
+                    setFormData({
+                      title: blog.title || "",
+                      description: blog.description || "",
+                      image: null, // Assuming you handle images through a file input, so it's okay to initialize as null
+                      link: blog.link || "",
+                    })
+                    setFormAppear(true);
+                    setUpdate(true)
+                    console.log(blog._id,'from update button')
+
+                  }}
+                  className="w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Edit
                 </button>
               </div>
             </div>
 
             <div className="flex flex-col justify-around h-full">
-              <h1 className="text-3xl font-semibold">
-                {blog.title}
-              </h1>
-              <p>
-                {
-                  blog.description
-                }
-              </p>
+              <h1 className="text-3xl font-semibold">{blog.title}</h1>
+              <p>{blog.description}</p>
             </div>
           </div>
-        ))
-      }
+        ))}
     </section>
-  )
-}
+  );
+};
 
 export default AdminBlogs;

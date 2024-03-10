@@ -19,8 +19,6 @@ export default function AdminPage() {
       <h1 className="text-5xl pb-4 border-b-2 w-fit">
         Admin Dashboard
       </h1>
-
-
       <nav className="w-2/3">
         <ul className="flex items-center gap-10 justify-center w-full">
           <li className="w-fit flex flex-col hover:text-green-500">
