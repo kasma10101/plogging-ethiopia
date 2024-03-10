@@ -47,7 +47,7 @@ const Members = () => {
           </h1>
         </div>
       }
-
+      
       {
         !isLoading && error === null &&
         members.members.map((member, index) => (
@@ -69,6 +69,7 @@ const Members = () => {
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
               Delete
             </button>
+            
           </div>
         ))
       }

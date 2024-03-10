@@ -189,7 +189,7 @@ const Contactus = ()=>{
 
             <div className="flex flex-col">
               <p>
-                admin@ploggingethiopia.org
+                info@ploggingethiopia.org
               </p>
             </div>
           </div>
