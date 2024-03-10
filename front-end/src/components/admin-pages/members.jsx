@@ -61,9 +61,9 @@ const Members = () => {
             <p>
               {member.phoneNumber}
             </p>
-            <p>
+            {/* <p>
               {member.password}
-            </p>
+            </p> */}
             <button
               onClick={()=>{handleDelete(member._id)}}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
