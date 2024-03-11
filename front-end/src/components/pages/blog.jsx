@@ -2,6 +2,7 @@ import blogHeader from "../../assets/Blog-header.png"
 import shareIcon from "../../assets/share-icon.svg"
 import FAQ from "../commons/FAQ";
 import {useQuery} from "react-query";
+import { Link } from "react-router-dom";
 
 
 const fetchBlogs = async () => {
@@ -69,28 +70,31 @@ const Blog = ()=>{
                     className="felx flexcol w-full place-items-center cursor-pointer"
                   >
                     <div className="flex flex-col gap-2 w-full max-w-[340px]">
-                      <img className="w-full" src={`localhost/${blog.imageUrl}`} alt={"blog"} />
-                      <div className="flex justify-between w-full">
+                      <img className="w-full max-w-[500px] max-h-[200px]" src={`http://localhost:4532/${blog.imageUrl}`} alt={"blog"} />
+                      <div className="flex flex-col justify-between w-full">
+                       
+                      <div className="flex flex-col justify-around h-fit py-4 gap-4">
+                      <h1 className="text-3xl font-semibold">
+                        {blog.title}
+                      </h1>
+                      {/* <p>
+                        {
+                          blog.description
+                        }
+                      </p> */}
+                    </div>
+
                         <p>
                           {
                             timeAgo(blog.createdAt)
                           }
                         </p>
-                        <span className="flex items-center hover:text-green-600 text-green-400">
-                          Read More ->
+                        <span className="flex  items-center hover:text-green-600 text-green-400">
+                         <Link to='/detail' state={{content:blog.description,title:blog.title,image:blog.imageUrl}}>
+                         Read More -->
+                         </Link>
                         </span>
                       </div>
-                    </div>
-
-                    <div className="flex flex-col justify-around h-fit py-4 gap-4">
-                      <h1 className="text-3xl font-semibold">
-                        {blog.title}
-                      </h1>
-                      <p>
-                        {
-                          blog.description
-                        }
-                      </p>
                     </div>
                   </div>
                 </a>

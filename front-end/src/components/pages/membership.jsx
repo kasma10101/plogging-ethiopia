@@ -88,10 +88,10 @@ const Membership = ()=>{
       >
         <img src={story1} className="w-full" alt={"member"} />
 
-        <form className="w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
+        <form name="member" className="w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
 
           <div className="flex flex-col items-start w-full">
-            <label>
+            <label id="member">
               Full Name
             </label>
             <input

@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserUploaded from "./components/admin-pages/userUploadedDatas";
 import Profile from "./components/pages/profile";
 import Login from "./components/pages/login";
+import BlogDetail from './components/pages/BlogDetail';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
+          <Route index path={"/detail"} element={<BlogDetail />} />
             <Route path="/" element={<Layout />}>
               <Route index element={<Landing />} />
               <Route path={"/membership"} element={<Membership />} />
