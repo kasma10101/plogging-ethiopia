@@ -8,7 +8,7 @@ const getMembers = async function(req, res, next) {
     const totalDocument = await Member.countDocuments();
     const totalPage = Math.ceil(totalDocument / 9);
 
-    const page = parseInt(req.query.page);
+    const page = Math.max(1, parseInt(req.query.page) || 1);
 
     if (page > totalPage) {
 

@@ -8,8 +8,8 @@ import {Link} from "react-router-dom";
 
 const createMember = async (member) => {
   try{
-    console.log(member)
-    const res = await fetch("https://backend.ploggingethiopia.org/members", {
+    // console.log(member)
+    const res = await fetch("http://localhost:4532/members", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

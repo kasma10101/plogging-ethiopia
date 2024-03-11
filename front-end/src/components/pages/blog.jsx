@@ -6,7 +6,7 @@ import {useQuery} from "react-query";
 
 const fetchBlogs = async () => {
   try{
-    const response = await fetch("https://backend.ploggingethiopia.org/blogs");
+    const response = await fetch("http://localhost:4532/blogs");
     if (!response.ok) {
       throw new Error('Failed to update task completion');
     }
@@ -69,7 +69,7 @@ const Blog = ()=>{
                     className="felx flexcol w-full place-items-center cursor-pointer"
                   >
                     <div className="flex flex-col gap-2 w-full max-w-[340px]">
-                      <img className="w-full" src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
+                      <img className="w-full" src={`localhost/${blog.imageUrl}`} alt={"blog"} />
                       <div className="flex justify-between w-full">
                         <p>
                           {

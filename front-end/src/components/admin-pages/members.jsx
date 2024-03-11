@@ -1,14 +1,15 @@
 import {useMutation, useQuery} from "react-query";
 
 const fetchMember = async () => {
-  const res = await fetch("https://backend.ploggingethiopia.org/members");
+  const res = await fetch("http://localhost:4532/members");
   const data = await res.json();
+  console.log(data,'this is data')
   return data;
 
 }
 
 const deleteMember = async (id) => {
-  const res = await fetch(`https://backend.ploggingethiopia.org/members/${id}`, {
+  const res = await fetch(`http://localhost:4532/members/${id}`, {
     method: "DELETE",
   });
 

@@ -5,7 +5,7 @@ import {toast} from "react-toastify";
 
 const fetchGallery = async () => {
   try{
-    const res = await fetch("https://backend.ploggingethiopia.org/galleries");
+    const res = await fetch("http://localhost:4532/galleries");
     const data = await res.json();
     return data;
   } catch (e){
@@ -16,7 +16,7 @@ const fetchGallery = async () => {
 
 const deleteGallery = async (id) => {
   try{
-    const res = await fetch(`https://backend.ploggingethiopia.org/galleries/${id}`, {
+    const res = await fetch(`http://localhost:4532/galleries/${id}`, {
       method: "DELETE"
     });
 
@@ -30,7 +30,7 @@ const deleteGallery = async (id) => {
 const addGallery = async (gallery) => {
 
   try{
-    const res = await fetch(`https://backend.ploggingethiopia.org/galleries`, {
+    const res = await fetch(`http://localhost:4532/galleries`, {
       method: "POST",
       body: gallery
     });
@@ -186,7 +186,7 @@ const AdminGallery = () => {
         gallery.gallery.map((image, index)=> {
           return (
             <div className="grid grid-cols-2 place-items-center">
-              <img className="w-[150px]" key={index} src={`https://backend.ploggingethiopia.org/${image.imageUrl}`} alt="garbage" />
+              <img className="w-[150px]" key={index} src={`http://localhost:4532/${image.imageUrl}`} alt="garbage" />
               <button
                 onClick={() => handleDelete(image._id)}
                 className=" h-fit w-fit bg-red-500 w-fit hover:bg-red-700 text-white font-bold py-2 px-4 rounded">

@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 
 const fetchUploaded = async () => {
     try{
-        const res = await fetch("https://backend.ploggingethiopia.org/galleries/userUploadedFiles");
+        const res = await fetch("http://localhost:4532/galleries/userUploadedFiles");
 
         if (!res.ok){
             throw new Error("An error occurred while fetching data")
@@ -18,7 +18,7 @@ const fetchUploaded = async () => {
 
 const deleteUploaded = async (id) => {
     try{
-        const res = await fetch(`https://backend.ploggingethiopia.org/galleries/userUploadedFiles/${id}`, {
+        const res = await fetch(`http://localhost:4532/galleries/userUploadedFiles/${id}`, {
             method: "DELETE"
         });
 
@@ -93,7 +93,7 @@ const UserUploaded = () => {
                         </p>
 
                         <a
-                            href={`https://backend.ploggingethiopia.org/${upload.fileName}`}
+                            href={`http://localhost:4532/${upload.fileName}`}
                             download
                         >
                             <button

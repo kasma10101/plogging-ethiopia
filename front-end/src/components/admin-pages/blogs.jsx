@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const fetchBlogs = async () => {
   try {
-    const res = await fetch("https://backend.ploggingethiopia.org/blogs");
+    const res = await fetch("http://localhost:4532/blogs");
     if (!res.ok) {
       throw new Error("An error occurred while fetching blogs");
     }
@@ -19,7 +19,7 @@ const fetchBlogs = async () => {
 const deleteBlog = async (id) => {
   try {
     const res = await fetch(
-      `https://backend.ploggingethiopia.org/blogs/${id}`,
+      `http://localhost:4532/blogs/${id}`,
       {
         method: "DELETE",
       }
@@ -38,7 +38,7 @@ const deleteBlog = async (id) => {
 
 const AddBlog = async (blog) => {
   try {
-    const res = await fetch(`https://backend.ploggingethiopia.org/blogs`, {
+    const res = await fetch(`http://localhost:4532/blogs`, {
       method: "POST",
       body: blog,
     });
@@ -56,7 +56,7 @@ let updateId = ''
 const UpdateBlog = async (blog) => {
   try {
     const res = await fetch(
-      `https://backend.ploggingethiopia.org/blogs/${updateId}}`,
+      `http://localhost:4532/blogs/${updateId}}`,
       {
         method: "PUT",
         body: JSON.stringify(blog),
@@ -260,7 +260,7 @@ const AdminBlogs = () => {
           >
             <div className="flex flex-col gap-2">
               <img
-                src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`}
+                src={`http://localhost:4532/${blog.imageUrl}`}
                 alt={"blog"}
               />
               <div className="flex justify-between">
