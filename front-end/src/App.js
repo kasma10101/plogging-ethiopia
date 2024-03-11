@@ -17,6 +17,7 @@ import UserUploaded from "./components/admin-pages/userUploadedDatas";
 import Profile from "./components/pages/profile";
 import Login from "./components/pages/login";
 import BlogDetail from './components/pages/BlogDetail';
+import Admins from './components/admin-pages/Admins';
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                 <Route index path={"/admin/members"} element={<Members />} />
                 <Route index path={"/admin/gallery"} element={<AdminGallery />} />
                 <Route index path={"/admin/uploaded"} element={<UserUploaded />} />
+                <Route index path={"/admin/admins"} element={<Admins />} />
               </Route>
               <Route path={"*"} element={<h1>Not Found</h1>} />
             </Route>

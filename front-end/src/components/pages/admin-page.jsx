@@ -69,6 +69,18 @@ export default function AdminPage() {
                       ""
               }
           </li>
+          <li className="w-fit flex flex-col hover:text-green-500">
+              <Link to="/admin/admins">
+                  Admins
+              </Link>
+              {
+                  location.pathname === "/admin/admins"
+                      ?
+                      <span className="w-full rounded-full h-[5px] bg-green-500"></span>
+                      :
+                      ""
+              }
+          </li>
         </ul>
       </nav>
 
