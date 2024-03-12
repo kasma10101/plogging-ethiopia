@@ -14,6 +14,9 @@ router.delete('/:id', memberController.deleteMember);
 
 router.post('/admin/create', memberController.createAdmin);
 router.post('/sub', memberController.addSub);
+router.post('/event', memberController.createEvent);
+router.get('/event', memberController.getEvent);
+router.delete('/event/:id', memberController.deleteEvent);
 
 // router.post('/admin/login', memberController.adminLogin);
 

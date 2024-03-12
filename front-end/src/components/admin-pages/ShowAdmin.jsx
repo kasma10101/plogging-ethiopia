@@ -10,9 +10,7 @@ function ShowAdmin() {
     const fetchAdmins = async () => {
       try {
         const response = await axios.get('http://localhost:4532/members/admin');
-        // console.log(response.data,'response');
         setAdmins(response.data);
-        // Assuming the response Admins is the array of admins
       } catch (error) {
         console.error("Error fetching admins:", error);
       }
@@ -21,7 +19,6 @@ function ShowAdmin() {
     fetchAdmins();
 
   }, [Admins])
-  // console.log(Admins,'admins')
 
    const handleDelete = async(id) =>{
     const response = await axios.delete(`http://localhost:4532/members/${id}`);

@@ -1,6 +1,7 @@
 //controller of member
 Member = require('../models/member');
 Sub = require('../models/sub');
+Event = require('../models/event');
 
 const getMembers = async function(req, res, next) {
   try{
@@ -50,7 +51,44 @@ const createMember = async function(req, res, next) {
     res.status(400).send({message: error.message});
   }
 };
+ createEvent = async function(req, res, next) {
+  try{
+    const event = new Event(req.body);
+    const savedMember= await event.save();
 
+    if (!savedMember) {
+        return res.status(400).json({ message: "cannot be created " });
+      }
+      return res.status(201).json({savedMember});
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
+};
+
+const getEvent = async(req,res) =>{
+   
+     try {
+         const event  = await Event.find();
+           if(!event){
+            return res.status(404).json('not found')
+           }
+           return res.status(200).json(event)
+     } catch (error) {
+      return re.status(500).json(error)
+     }
+}
+
+const deleteEvent = async(req,res) =>{
+    try {
+       const event = await Event.findByIdAndDelete(req.params.id)
+       if(!event){
+       return res.status(500).json({message:'error occurred'})
+       }
+       return res.status(200).json({message:"deleted"})
+    } catch (error) {
+       return res.status(500).json(error)
+    }
+}
 
  const createAdmin= async (req,res)=>{
   // console.log(req.body)
@@ -170,5 +208,8 @@ module.exports = {
   createAdmin,
   MemberLogin,
   getAdmin,
-  addSub
+  addSub,
+  createEvent,
+  getEvent,
+  deleteEvent
 };

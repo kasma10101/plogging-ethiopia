@@ -81,6 +81,18 @@ export default function AdminPage() {
                       ""
               }
           </li>
+          <li className="w-fit flex flex-col hover:text-green-500">
+              <Link to="/admin/event">
+                  Subscribed Event
+              </Link>
+              {
+                  location.pathname === "/admin/event"
+                      ?
+                      <span className="w-full rounded-full h-[5px] bg-green-500"></span>
+                      :
+                      ""
+              }
+          </li>
         </ul>
       </nav>
 

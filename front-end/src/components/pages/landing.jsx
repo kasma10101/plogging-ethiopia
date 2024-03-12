@@ -12,6 +12,9 @@ import Navbar from "../commons/navbar";
 import {Link} from "react-router-dom";
 import {useQuery} from "react-query";
 import shareIcon from "../../assets/share-icon.svg";
+import { useState } from "react";
+import axios from 'axios'
+import { toast } from "react-toastify";
 
 const fetchBlogs = async () => {
   try{
@@ -29,8 +32,48 @@ const fetchBlogs = async () => {
 
 const Landing = () => {
   const {data: blogs, isLoading, error} = useQuery("blogsUser", fetchBlogs)
-  const {}
+  const [data,setData] = useState([{
+    name:'',
+    agreement:false,
+    email:'',
+    who:'',
+    date:''
 
+  }])
+    
+  
+  const handleChange = (event) => {
+    const { name, value} = event.target;
+
+    // Update the form data based on the input onChange={handleChange} type
+    setData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async(e) =>{
+          e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:4532/members/event',data);
+      if(response.status === 201){
+        toast.success("Successfully sent")
+        setData({
+          name:"",
+          date:'',
+          who:"",
+          email:'',
+          agreement:false
+        })
+      }else{
+        toast.error("error occured")
+      }
+      // setData(response.data);
+    } catch (error) {
+      toast.error("error occured")
+      console.error("Error fetching admins:", error);
+    }
+  }
   return (
     <main className="w-full flex flex-col items-center gap-20 pb-20">
       <Hero />
@@ -145,38 +188,38 @@ const Landing = () => {
             Ready to make a difference? Explore ways to engage, support, or collaborate with Plogging-Ethiopia.
           </p>
 
-          <form className="md:w-[80%] w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
+          <form onSubmit={handleSubmit} className="md:w-[80%] w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
 
             <div className="flex flex-col items-start w-full">
-              <label>
+              <label id='name'>
                 Full Name
               </label>
-              <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+              <input onChange={handleChange}  value={data.name} type="text" name="name" className="p-2 rounded-md w-full border-input onChange={handleChange} border-2" />
             </div>
 
             <div className="flex flex-col items-start w-full">
-              <label>
+              <label id="email">
                 Email
               </label>
-              <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+              <input onChange={handleChange}  value={data.email} type="text" name="email" className="p-2 rounded-md w-full border-input onChange={handleChange} border-2" />
             </div>
 
             <div className="flex flex-col items-start w-full">
-              <label>
+              <label id="who">
                 Who held the event
               </label>
-              <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+              <input onChange={handleChange}  value={data.who} type="text" name="who" className="p-2 rounded-md w-full border-input onChange={handleChange} border-2" />
             </div>
 
             <div className="flex flex-col items-start w-full">
               <label>
                 Date of Event
               </label>
-              <input type="text" className="p-2 rounded-md w-full border-input border-2" />
+              <input onChange={handleChange}  value={data.date} type="text" name="date" className="p-2 rounded-md w-full border-input onChange={handleChange} border-2" />
             </div>
 
             <div className="flex items-center gap-3">
-              <input type="checkbox" />
+              <input onChange={handleChange} name="agreement"  checked={data.agreement} type="checkbox" />
               <label>
                 I agree to the terms and policy
               </label>
