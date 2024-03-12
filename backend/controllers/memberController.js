@@ -59,7 +59,7 @@ const createMember = async function(req, res, next) {
       password,
       role,
   } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   try {
 const member= new Member({
           name:name,
@@ -124,10 +124,10 @@ const updateMember = async function(req, res, next) {
 const deleteMember = async function(req, res, next) {
 
   try {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     const member = await Member.findByIdAndDelete(req.params.id);
     if(!member){
-      return res.status(500).json({message:"error occurred"})
+      return res.status(404).json({message:"not found"})
     }
     return res.send({member:"deleted successfully"});
   } catch (error) {

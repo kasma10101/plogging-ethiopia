@@ -3,6 +3,7 @@ import Loader from "../commons/loader";
 import {useState} from "react";
 import {toast} from "react-toastify";
 import axios from 'axios'
+import ShowAdmin from "./ShowAdmin";
 
 const fetchadmins = async () => {
   try{
@@ -37,14 +38,14 @@ const addAdmins = async (formData) => {
 console.log(formData,'in admins')
   try{
   
-    const res = await axios.post("http://localhost:4532/admins/admin/create",formData);
-
-    if (!res.ok){
+    const res = await axios.post("http://localhost:4532/members/admin/create",formData);
+          console.log(res.status === 201,'eresere')
+    if (!res.status === 201){
       throw new Error("An error occurred while adding admins")
     }
 
-    const data = await res.json();
-    return data;
+    // const data = await res.json();
+    return res.data;
   } catch (e) {
     throw new Error(e)
   }
@@ -118,11 +119,11 @@ const Admins= () => {
       </h1> */}
       <button
         onClick={()=>{setFormAppear(true)}}
-        className="w-fit bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+        className="w-fit bg-green-500 hover:bg-green-700 text-white font-bold -mt-10 py-2 px-4 rounded flex items-center justify-center"
       >
         Add Admin
       </button>
-
+        <ShowAdmin />
       <div
         style={{
           display: formAppear ? "grid" : "none"
