@@ -1,5 +1,6 @@
 //controller of member
 Member = require('../models/member');
+Sub = require('../models/sub');
 
 const getMembers = async function(req, res, next) {
   try{
@@ -142,6 +143,22 @@ const searchMember = async function(req, res, next){
     res.status(500).send({message: e.message})
   }
 }
+const addSub = async(req,res) =>{
+  const {email} = req.body
+  console.log(email,'inside email')
+  try {
+     const sub = new Sub({email})
+      const savedSub = await sub.save();
+      if(!savedSub){
+        return res.status(400).json('error')
+      }
+      console.log(savedSub,'saved')
+      return res.status(201).json('created')
+  } catch (error) {
+    return res.status(400).json(error)
+
+  }
+}
 
 module.exports = {
   getMembers,
@@ -152,5 +169,6 @@ module.exports = {
   searchMember,
   createAdmin,
   MemberLogin,
-  getAdmin
+  getAdmin,
+  addSub
 };

@@ -13,6 +13,7 @@ router.put('/:id', memberController.updateMember);
 router.delete('/:id', memberController.deleteMember);
 
 router.post('/admin/create', memberController.createAdmin);
+router.post('/sub', memberController.addSub);
 
 // router.post('/admin/login', memberController.adminLogin);
 

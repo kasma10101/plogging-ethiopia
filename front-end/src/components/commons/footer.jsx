@@ -6,6 +6,7 @@ import youtube from "../../assets/social-media/youtube.png"
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import {toast} from "react-toastify";
+import axios from "axios"
 
 const Footer = ()=>{
 
@@ -34,12 +35,18 @@ const Footer = ()=>{
 
   const [email, setEmail] = useState("")
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async(e)=>{
     e.preventDefault()
     if (email === ""){
       toast.error("Please fill the email field")
       return
     } else {
+      console.log(email,'inseide  ')
+      const res = await axios.post("http://localhost:4532/members/sub",email);
+      console.log(res,'resss')
+      if(res.status === 400){
+        toast.error("Error occurred")
+      }
       setEmail('')
       toast.success("You are now subscribed")
     }
@@ -80,11 +87,13 @@ const Footer = ()=>{
             <input value={email} onChange={(e)=>{
               setEmail(e.target.value)
             }} type="email" className="p-2 rounded-l-md border-input border-2 w-1/2 border-r-0 focus:outline-0" />
+            <form action="POST" onSubmit={handleSubmit}>
             <button
-              onClick={handleSubmit}
-              className=" bg-green-500 hover:bg-green-700 border-2 border-input w-1/2 text-white font-bold py-2 px-4 rounded-r-md">
+               type="submit"
+           className=" bg-green-500 hover:bg-green-700 border-2 border-input w-1/2 text-white font-bold py-2 px-4 rounded-r-md">
               Submit
             </button>
+            </form>
           </div>
         </div>
 
