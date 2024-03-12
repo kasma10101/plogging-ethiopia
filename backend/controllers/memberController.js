@@ -1,6 +1,5 @@
 //controller of member
 Member = require('../models/member');
-Admin = require('../models/admin');
 
 const getMembers = async function(req, res, next) {
   try{
@@ -51,22 +50,58 @@ const createMember = async function(req, res, next) {
   }
 };
 
-const createAdmin = async function(req, res, next) {
 
-  try{
-    const member = await Admin.create(req.body);
-    res.send(member);
+ const createAdmin= async (req,res)=>{
+  // console.log(req.body)
+  const {
+      name,
+      email,
+      password,
+      role,
+  } = req.body;
+  console.log(req.body)
+  try {
+const member= new Member({
+          name:name,
+          email:email,
+          role:role,
+          password:password,
+          phoneNumber:'091999991'
+
+      })
+      const savedMember= await member.save();
+
+      if (!savedMember) {
+          return res.status(400).json({ message: "cannot be created " });
+        }
+        return res.status(201).json({savedMember});
+    
 
   } catch (error) {
-    res.status(400).send({message: error.message});
+      console.log(error)
+    
   }
-};
+}
 
-const adminLogin = async function(req, res, next) {
+const getAdmin = async(req,res) =>{
+
+  try {
+     const admins = await Member.find()
+     if(!admins){
+      return res.status(404).json({message:"not found"})
+     }
+
+     return res.status(200).json(admins)
+  } catch (error) {
+    
+  }
+}
+
+const MemberLogin = async function(req, res, next) {
   try{
-    const admin = await Admin.findOne({email: req.body.email, password: req.body.password});
-    if(admin) {
-      res.status(200).send(admin);
+    const Member = await Member.findOne({email: req.body.email, password: req.body.password});
+    if(Member) {
+      res.status(200).send(Member);
     } else {
       res.status(400).send({message: "Invalid email or password"});
     }
@@ -91,7 +126,10 @@ const deleteMember = async function(req, res, next) {
   try {
     console.log(req.params.id)
     const member = await Member.findByIdAndDelete(req.params.id);
-    res.send(member);
+    if(!member){
+      return res.status(500).json({message:"error occurred"})
+    }
+    return res.send({member:"deleted successfully"});
   } catch (error) {
     res.status(400).send({message: error.message});
   }
@@ -113,5 +151,6 @@ module.exports = {
   deleteMember,
   searchMember,
   createAdmin,
-  adminLogin,
+  MemberLogin,
+  getAdmin
 };
