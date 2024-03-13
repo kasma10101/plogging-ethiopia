@@ -31,8 +31,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-app.use('/members',upload.single('image'), require('./routes/member'));
+app.use('/members', require('./routes/member'));
 app.use('/blogs', require('./routes/blog'));
 app.use('/galleries', require('./routes/gallery'));
 

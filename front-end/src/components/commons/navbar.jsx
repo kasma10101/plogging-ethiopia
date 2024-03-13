@@ -88,6 +88,18 @@ const Navbar = ()=>{
                 ""
               }
           </li>
+          <li  className="w-fit flex flex-col hover:text-green-500">
+            <Link to={"/login"}>
+              Login
+            </Link>
+              {
+                location.pathname === "/login"
+                ?
+                <span className="w-full rounded-full h-[5px] bg-green-500"></span>
+                :
+                ""
+              }
+          </li>
         </ul>
       </nav>
 
@@ -202,10 +214,29 @@ const Navbar = ()=>{
                 }
               }
             >
-              Contact
+              Contacts
             </Link>
             {
               location.pathname === "/contact"
+                ?
+                <span className="w-full rounded-full h-[5px] bg-green-500"></span>
+                :
+                ""
+            }
+          </li>
+          <li  className="w-fit flex flex-col hover:text-green-500">
+            <Link
+              to={"/login"}
+              onClick={
+                ()=>{
+                  setShow(!show)
+                }
+              }
+            >
+              Login
+            </Link>
+            {
+              location.pathname === "/login"
                 ?
                 <span className="w-full rounded-full h-[5px] bg-green-500"></span>
                 :

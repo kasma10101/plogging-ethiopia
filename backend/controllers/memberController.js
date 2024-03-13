@@ -3,6 +3,7 @@ Member = require('../models/member');
 Sub = require('../models/sub');
 Event = require('../models/event');
 AdminEvent = require('../models/AdminEvent');
+jwt = require('jsonwebtoken')
 
 const getMembers = async function(req, res, next) {
   try{
@@ -204,11 +205,11 @@ const getAdmin = async(req,res) =>{
 
 const MemberLogin = async function(req, res, next) {
   try{
-    const Member = await Member.findOne({email: req.body.email, password: req.body.password});
-    if(Member) {
-      res.status(200).send(Member);
+    const member = await Member.findOne({email: req.body.email, password: req.body.password});
+    if(member) {
+      return res.status(200).send(member);
     } else {
-      res.status(400).send({message: "Invalid email or password"});
+     return res.status(400).send({message: "Invalid email or password"});
     }
   } catch (error) {
     res.status(400).send({message: error.message});
@@ -264,6 +265,82 @@ const addSub = async(req,res) =>{
   }
 }
 
+const forgotPassword =  async(req,res) => {
+  const { email } = req.body;
+  let error = [];
+
+  try {
+    const user = await Member.findOne({ email });
+    if (email !== user.email) {
+      error.push({ message: "email not registered" });
+      return res.send({ message: "no user found" });
+    }
+
+    const secret = JWT + user.password;
+    const payload = {
+      email: user.email,
+      id: user.id,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: "30m" });
+
+    const link = `http://localhost:4000/reset-password/${user.id}/${token}`;
+    //send email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fayomuhe5@gmail.com",
+        pass: "vypd cqxp eqqm krsg",
+        port: 465,
+        secure: true,
+      },
+    });
+    const mailOptions = {
+      from: "fayomuhe5@gmail.com",
+      to: email,
+      subject: "VCO charity Org.",
+      html: `<p>Password Reset</p>
+             <p>Please follow this link to reset your password!</p>
+             <a href=${link}>Reset!</a>
+             `,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+     error.push({msg:"Reset link sent check your email!"})
+    return res.send(error);
+  } catch (error) {
+     error.push({msg:error})
+      return res.status(500).json(error);
+  }
+};
+router.get("/reset-password/:id/:token", async (req, res) => {
+  const { token, id } = req.params;
+  let user,
+    error = [];
+ console.log(' here is id')
+  try {
+    user = await Member.findById(id);
+    if (!user) {
+      error.push({ msg: "something went wrong" });
+      return res.render('front-page/forgot-password',{error});
+    }
+
+    const secret = JWT + user.password;
+    const payload = jwt.verify(token, secret);
+    error = ''
+    return res.render("front-page/reset-password", { token: token, id: id,error:error});
+  } catch (error) {
+    error.push({msg:error.messaage})
+    return res.render('front-page/forgot-password',{error});
+
+  }
+});
+
 module.exports = {
   getMembers,
   getMember,
@@ -272,7 +349,6 @@ module.exports = {
   deleteMember,
   searchMember,
   createAdmin,
-  MemberLogin,
   getAdmin,
   addSub,
   createEvent,
@@ -281,4 +357,6 @@ module.exports = {
   createAdminEvent,
   getAdminEvent,
   deleteAdminEvent,
+  MemberLogin,
+  forgotPassword
 };

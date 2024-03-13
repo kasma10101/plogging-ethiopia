@@ -6,7 +6,7 @@ import Loader from "../commons/loader";
 
 const loginRequest = async (data) => {
   try{
-    const res = await fetch("https://backend.ploggingethiopia.org/members/login", {
+    const res = await fetch("http://localhost:4532/members/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,8 @@ const Login = ()=> {
     }
 
     try{
-      await mutation.mutateAsync({email: formData.email, password: formData.password});
+      await mutation.mutateAsync(formData);
+      console.log(mutation,'mutation')
       if (mutation.isSuccess && mutation.data.role === "admin"){
         localStorage.setItem("admin", "true");
         toast.success("You are now logged in as admin");
@@ -101,6 +102,8 @@ const Login = ()=> {
           }
           Login
         </button>
+        <p className="text-[#506ba5] hover:text-green-500"><a href="/forgot">Forgot Password ?</a></p>
+
       </form>
     </section>
   )
