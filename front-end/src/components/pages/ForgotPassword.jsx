@@ -3,7 +3,9 @@ import {toast} from "react-toastify";
 import axios  from 'axios'
 
 function ForgotPassword() {
-  const[emailData,setEmailData] = useState('')
+  const[emailData,setEmailData] = useState({
+    email:''
+  })
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -20,17 +22,16 @@ function ForgotPassword() {
     } else {
       console.log('inseide  ')
       const res = await axios.post("http://localhost:4532/blogs/reset",emailData);
-      if(res.status !==200){
-
-        toast.error("Error occurred",res.response.statusText)
-      }
+      setEmailData({email:""})
+      if(res.status ===200){
+        toast.success("Verification link sent through your email ")   
+         }
       console.log(res,'resss')
-      if(res.response.status === 400 || res.response.status === 404){
+      if(res.status === 400 || res.status === 404){
         toast.error("Error occurred",res.response.statusText)
         console.log(res.response.statusText)
       }
-      setEmailData('')
-      toast.success("Verification link sent through your email ")
+     
     }
 
   }

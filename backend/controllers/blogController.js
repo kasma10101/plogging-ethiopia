@@ -89,7 +89,7 @@ const forgotPassword =  async(req,res) => {
     };
     const token = jwt.sign(payload, secret, { expiresIn: "30m" });
 
-    const link = `http://localhost:4000/reset-password/${user.id}/${token}`;
+    const link = `http://localhost:3000/reset-password`;
     //send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -103,7 +103,7 @@ const forgotPassword =  async(req,res) => {
     const mailOptions = {
       from: "fayomuhe5@gmail.com",
       to: email,
-      subject: "VCO charity Org.",
+      subject: "Plogging Ethiopia.",
       html: `<p>Password Reset</p>
              <p>Please follow this link to reset your password!</p>
              <a href=${link}>Reset!</a>
@@ -117,7 +117,7 @@ const forgotPassword =  async(req,res) => {
         console.log("Email sent: " + info.response);
       }
     });
-    return res.status(500).json('something went wrong');
+    return res.status(200).json({message:'sent'});
   } catch (error) {
      console.log(error)
       return res.status(500).json(error);

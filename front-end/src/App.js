@@ -22,6 +22,7 @@ import ShowAdmin from './components/admin-pages/ShowAdmin';
 import SubscribedEvent from './components/admin-pages/SubscribedEvent';
 import AddEvent from './components/admin-pages/AddEvent';
 import ForgotPassword from './components/pages/ForgotPassword';
+import ResetPassword from './components/pages/ResetPassword';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
               <Route path={"/profile"} element={<Profile />} />
               <Route path={"/login"} element={<Login />} />
               <Route path={"/forgot"} element={<ForgotPassword />} />
+              <Route path={"/reset-password"} element={<ResetPassword />} />
               <Route path={"/admin"} element={<AdminPage />} >
                 <Route index path={"/admin/blogs"} element={<AdminBlogs />} />
                 <Route index path={"/admin/members"} element={<Members />} />
