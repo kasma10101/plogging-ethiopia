@@ -1,4 +1,5 @@
-var express = require('express'),
+var express = require('express')
+const multer = require('multer')
   cors = require('cors'),
   bodyParser = require('body-parser'),
   config = require('./config'),
@@ -19,7 +20,19 @@ app.use(compression());
 app.use(cors());
 app.use(express.static('upload'));
 
-app.use('/members', require('./routes/member'));
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './upload/');
+  },
+  filename: (req, file, cb) => {
+
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/members',upload.single('image'), require('./routes/member'));
 app.use('/blogs', require('./routes/blog'));
 app.use('/galleries', require('./routes/gallery'));
 

@@ -2,6 +2,7 @@
 Member = require('../models/member');
 Sub = require('../models/sub');
 Event = require('../models/event');
+AdminEvent = require('../models/AdminEvent');
 
 const getMembers = async function(req, res, next) {
   try{
@@ -52,8 +53,20 @@ const createMember = async function(req, res, next) {
   }
 };
  createEvent = async function(req, res, next) {
+   const {  name,
+    email,
+    who,
+    date,
+    agreement,
+    createdBy,} = req.body
   try{
-    const event = new Event(req.body);
+    const event = new Event({
+      email:email,
+      who:who,
+      date:date,
+      agreement:agreement,
+      createdBy:'user',
+    });
     const savedMember= await event.save();
 
     if (!savedMember) {
@@ -90,6 +103,59 @@ const deleteEvent = async(req,res) =>{
     }
 }
 
+createAdminEvent = async function(req, res, next) {
+  console.log(req.body)
+  const {
+   name,
+   description,
+   date,
+   place,
+   image
+  } = req.body
+ try{
+  if (req.file) {
+    image = req.file.filename;
+}
+// console.log(image,'file')
+   const event = new AdminEvent({
+     name:name,
+     description:description,
+     date:date,
+    place:place,
+    image:image
+    });
+   const savedMember= await event.save();
+
+   if (!savedMember) {
+       return res.status(400).json({ message: "cannot be created " });
+     }
+     return res.status(201).json({savedMember});
+ } catch (error) {
+   res.status(400).send({message: error.message});
+ }
+};
+const getAdminEvent = async(req,res) =>{
+   try {
+      const event = await AdminEvent.find();
+      if(!event){
+        return res.status(404).json('not found')
+      }
+      return res.status(200).json(event)
+   } catch (error) {
+    return res.status(500).json(error)
+   }
+}
+const deleteAdminEvent = async(req,res) =>{
+  try {
+     const event = await AdminEvent.findByIdAndDelete(req.params.id)
+     if(!event){
+     return res.status(500).json({message:'error occurred'})
+     }
+     return res.status(200).json({message:"deleted"})
+  } catch (error) {
+     return res.status(500).json(error)
+  }
+}
  const createAdmin= async (req,res)=>{
   // console.log(req.body)
   const {
@@ -211,5 +277,8 @@ module.exports = {
   addSub,
   createEvent,
   getEvent,
-  deleteEvent
+  deleteEvent,
+  createAdminEvent,
+  getAdminEvent,
+  deleteAdminEvent,
 };

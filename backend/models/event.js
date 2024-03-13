@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema({
   who: String,
   date: String,
   agreement:String,
+  createdBy:String,
 });
 
 const eventModel = mongoose.model('event', eventSchema);

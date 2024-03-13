@@ -17,6 +17,9 @@ router.post('/sub', memberController.addSub);
 router.post('/event', memberController.createEvent);
 router.get('/event', memberController.getEvent);
 router.delete('/event/:id', memberController.deleteEvent);
+router.post('/event/admin',imageUploader, memberController.createAdminEvent);
+router.get('/event/admin', memberController.getAdminEvent);
+router.delete('/event/admin/:id', memberController.deleteAdminEvent);
 
 // router.post('/admin/login', memberController.adminLogin);
 
