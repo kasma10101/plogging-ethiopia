@@ -24,6 +24,8 @@ function ForgotPassword() {
       const res = await axios.post("http://localhost:4532/blogs/reset",emailData);
       setEmailData({email:""})
       if(res.status ===200){
+        console.log(res.data.id,'id nw')
+        localStorage.setItem('id',res.data.id)
         toast.success("Verification link sent through your email ")   
          }
       console.log(res,'resss')

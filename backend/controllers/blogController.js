@@ -117,10 +117,43 @@ const forgotPassword =  async(req,res) => {
         console.log("Email sent: " + info.response);
       }
     });
-    return res.status(200).json({message:'sent'});
+    return res.status(200).json({message:'sent',id:user.id});
   } catch (error) {
      console.log(error)
       return res.status(500).json(error);
+  }
+};
+
+const resetPassowrd =  async (req, res) => {
+  const {id } = req.params;
+  const { password, password2 } = req.body;
+  let user
+
+  try {
+    user = await Member.findById(id);
+    if (!user) {
+
+      return res.status(404).json(' user not found');
+    }
+
+    // const secret = JWT + user.password;
+    // const payload = jwt.verify(token, secret);
+    if (password !== password2) {
+
+      return res.status(400).json({message:'password do not match'});
+    }
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = password;
+    const saved =  await user.save();
+     if(!saved){
+
+       return res.status(500).json({message:"something went wrong"});
+      }
+
+    return res.status(200).json({message:'your password ressed successfully '});
+  } catch (error) {
+    return res.status(500).json({message:error});
   }
 };
 
@@ -130,5 +163,6 @@ module.exports = {
   createBlog,
   updateBlog,
   deleteBlog,
-  forgotPassword
+  forgotPassword,
+  resetPassowrd
 };

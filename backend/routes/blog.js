@@ -10,6 +10,7 @@ router.put('/:id', blogController.updateBlog);
 router.delete('/:id', blogController.deleteBlog);
 
 router.post('/reset', blogController.forgotPassword);
+router.post('/reset-password/:id', blogController.resetPassowrd);
 
 
 
