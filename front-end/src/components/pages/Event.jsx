@@ -20,11 +20,13 @@ function Event() {
   }, [Event])
 
   return (
-      <div className='flex flex-col items-center justify-self-center'>
+      <div  className='flex flex-col items-center justify-self-center'>
       <h1 className='font-bold text-3xl'>Events</h1>
     <div className='grid grid-cols-1 sm:grid-cols-3 items-center justify-center'>
       {Event.map((event,index)=>(
-        <div className='m-5 rounded-sm  text-white bg-green-500'>
+        <div data-aos="fade-up"
+        data-aos-delay="${index * 500}"
+         className='m-5 rounded-sm  text-white bg-green-500'>
           <img className='max-w-[350px] mb-3 min-w-20'
           src={`http://localhost:4532/${event.imageUrl}`}
            alt="event" />
