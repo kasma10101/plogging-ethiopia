@@ -112,7 +112,7 @@ const Admins= () => {
   }
 
   return (
-    <section className="w-full grid place-items-center gap-5">
+    <section className="w-full -mt-14 grid place-items-center gap-5">
 
       {/* <h1 className="text-5xl pb-4 border-b-2 w-fit">
         Adminss
@@ -130,7 +130,7 @@ const Admins= () => {
         }}
         className="absolute top-0 h-screen bg-black/20 w-screen grid place-items-center">
                 <div className="relative overflow-x-auto w-full h-full">
-        <table className="w-full - text-sm text-left text-gray-500 dark:text-gray-400">
+        <table className="w-full -mt-10 text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">

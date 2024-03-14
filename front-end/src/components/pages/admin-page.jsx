@@ -86,7 +86,7 @@ export default function AdminPage() {
                   PE's Event 
               </Link>
               {
-                  location.pathname === "/admin/admins"
+                  location.pathname === "/admin/add-event"
                       ?
                       <span className="w-full rounded-full h-[5px] bg-green-500"></span>
                       :

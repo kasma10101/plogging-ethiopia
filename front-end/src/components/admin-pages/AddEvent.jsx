@@ -112,7 +112,7 @@ const AddEvent= () => {
   }
 
   return (
-    <section className="w-full grid place-items-center gap-5">
+    <section className="w-full -mt-14 grid place-items-center gap-5">
 
       {/* <h1 className="text-5xl pb-4 border-b-2 w-fit">
         AddEvents
