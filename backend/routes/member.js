@@ -20,6 +20,8 @@ router.get('/event', memberController.getEvent);
 router.delete('/event/:id', memberController.deleteEvent);
 router.post('/event/admin', memberController.createAdminEvent);
 router.get('/event/admin', memberController.getAdminEvent);
+router.get('/sub/', memberController.getSub);
+router.delete('/sub/:id', memberController.deleteSub);
 router.delete('/event/admin/:id', memberController.deleteAdminEvent);
 
 router.post('/reset', memberController.forgotPassword);

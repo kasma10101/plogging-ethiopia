@@ -23,6 +23,8 @@ import SubscribedEvent from './components/admin-pages/SubscribedEvent';
 import AddEvent from './components/admin-pages/AddEvent';
 import ForgotPassword from './components/pages/ForgotPassword';
 import ResetPassword from './components/pages/ResetPassword';
+import ShowEvent from './components/admin-pages/showEvent';
+import ShowSub from './components/admin-pages/Subscribers';
 
 function App() {
 
@@ -53,6 +55,8 @@ function App() {
                 <Route index path={"/admin/show"} element={<ShowAdmin />} />
                 <Route index path={"/admin/event"} element={<SubscribedEvent />} />
                 <Route index path={"/admin/add-event"} element={<AddEvent />} />
+                <Route index path={"/admin/admin-event"} element={<ShowEvent />} />
+                <Route index path={"/admin/sub"} element={<ShowSub />} />
               </Route>
               <Route path={"*"} element={<h1>Not Found</h1>} />
             </Route>

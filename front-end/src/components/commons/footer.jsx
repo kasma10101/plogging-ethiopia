@@ -33,21 +33,31 @@ const Footer = ()=>{
     }
   ];
 
-  const [email, setEmail] = useState("")
+  const [data, setData] = useState({email:''})
+
+  const handleChange = (event) => {
+    const { name, value} = event.target;
+
+    // Update the form data based on the input type
+    setData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async(e)=>{
     e.preventDefault()
-    if (email === ""){
+    if (data.email === ""){
       toast.error("Please fill the email field")
       return
     } else {
-      console.log(email,'inseide  ')
-      const res = await axios.post("http://localhost:4532/members/sub",email);
+      console.log(data,'inseide  ')
+      const res = await axios.post("http://localhost:4532/members/sub",data);
       console.log(res,'resss')
       if(res.status === 400){
         toast.error("Error occurred")
       }
-      setEmail('')
+      setData('')
       toast.success("You are now subscribed")
     }
 
@@ -84,13 +94,11 @@ const Footer = ()=>{
             Sign up with your email address to receive news and updates.
           </p>
           <div className="flex items-center max-w-[400px] w-full">
-            <input value={email} onChange={(e)=>{
-              setEmail(e.target.value)
-            }} type="email" className="p-2 rounded-l-md border-input border-2 w-1/2 border-r-0 focus:outline-0" />
+            <input value={data.email} onChange={handleChange} name="email"  type="email" className="p-2 rounded-l-md border-input border-2 w-1/2 border-r-0 focus:outline-0" />
             <form action="POST" onSubmit={handleSubmit}>
             <button
                type="submit"
-           className=" bg-green-500 hover:bg-green-700 border-2 border-input w-1/2 text-white font-bold py-2 px-4 rounded-r-md">
+           className=" bg-green-500 w-full hover:bg-green-700 border-2 border-input  text-white font-bold py-2 px-4 rounded-r-md">
               Submit
             </button>
             </form>

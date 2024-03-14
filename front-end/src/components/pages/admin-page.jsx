@@ -82,7 +82,7 @@ export default function AdminPage() {
               }
           </li>
           <li className="w-fit text-nowrap flex flex-col hover:text-green-500">
-              <Link to="/admin/admins">
+              <Link to="/admin/add-event">
                   PE's Event 
               </Link>
               {
@@ -99,6 +99,18 @@ export default function AdminPage() {
               </Link>
               {
                   location.pathname === "/admin/event"
+                      ?
+                      <span className="w-full rounded-full h-[5px] bg-green-500"></span>
+                      :
+                      ""
+              }
+          </li>
+          <li className="w-fit text-nowrap flex flex-col hover:text-green-500">
+              <Link to="/admin/sub">
+                  Subscribers
+              </Link>
+              {
+                  location.pathname === "/admin/sub"
                       ?
                       <span className="w-full rounded-full h-[5px] bg-green-500"></span>
                       :

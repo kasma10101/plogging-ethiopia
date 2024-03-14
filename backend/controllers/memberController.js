@@ -249,15 +249,12 @@ const searchMember = async function(req, res, next){
   }
 }
 const addSub = async(req,res) =>{
-  const {email} = req.body
-  console.log(email,'inside email')
   try {
-     const sub = new Sub({email})
+     const sub = new Sub(req.body)
       const savedSub = await sub.save();
       if(!savedSub){
         return res.status(400).json('error')
       }
-      console.log(savedSub,'saved')
       return res.status(201).json('created')
   } catch (error) {
     return res.status(400).json(error)
@@ -265,6 +262,31 @@ const addSub = async(req,res) =>{
   }
 }
 
+const getSub = async(req,res) =>{
+  try {
+      const sub = await Sub.find();
+       
+       if(!sub){
+
+        return res.status(404).json('not found sub')
+       }
+       return res.status(200).json(sub)
+  } catch (error) {
+    return res.status(500).json(error)
+  }
+}
+
+const deleteSub = async(req,res) =>{
+  try {
+      const sub = await Sub.findByIdAndDelete(req.params.id)
+      if(!sub){
+        return res.status(404).json('sub not found')
+      }
+      return res.status(200).json('deleted')
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
 const forgotPassword =  async(req,res) => {
   const { email } = req.body;
   let error = [];
@@ -358,5 +380,7 @@ module.exports = {
   getAdminEvent,
   deleteAdminEvent,
   MemberLogin,
-  forgotPassword
+  forgotPassword,
+  getSub,
+  deleteSub
 };
