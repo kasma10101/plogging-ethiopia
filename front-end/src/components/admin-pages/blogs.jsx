@@ -154,8 +154,8 @@ const AdminBlogs = () => {
   };
 
   return (
-    <section className="w-full flex flex-col items-center gap-10">
-      <h1 className="text-5xl border-b-2 pb-4">Blogs</h1>
+    <section className="w-full -mt-24 flex flex-col items-center gap-10">
+      {/* <h1 className="text-5xl border-b-2 pb-4">Blogs</h1> */}
 
       <button
         onClick={() => {
@@ -246,31 +246,50 @@ const AdminBlogs = () => {
         <h1 className="text-4xl">Error occurred while fetching data</h1>
       )}
 
-      {!isLoading &&
-        error === null &&
-        blogs != null &&
-        blogs.blogs.map((blog, index) => (
-          <div
-            key={index}
-            className="grid grid-cols-2 w-full place-items-center"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 3fr",
-            }}
-          >
-            <div className="flex flex-col gap-2">
-              <img
+         <div  className="relative  overflow-x-auto w-full h-full">
+        <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Title
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Description
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Link
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Image
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {!isLoading && error === null && blogs?.blogs?.map((blog, index) => (
+              <tr key={index} className="bg-white  dark:bg-gray-800 dark:border-gray-700">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {blog.title}
+                </td>
+                <td className="px-6 py-4">
+                  {blog.description}
+                </td>
+                <td className="px-6 py-4">
+                  {blog.link}
+                </td>
+                <td className="px-6 py-4">
+                <img className='max-h-20 min-h-20 '
                 src={`http://localhost:4532/${blog.imageUrl}`}
-                alt={"blog"}
-              />
-                             {console.log(blog,'image')}            
-
-              <div className="flex justify-between">
+                alt={"member"}
+              />                    </td>
+                <td>
                 <button
                   onClick={() => handleDelete(blog._id)}
-                  className="w-1/3 bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="w-1/3 mr-2  bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                 >
-                  Delete
+                  Del
                 </button>
                 <button
                   onClick={() => {
@@ -286,19 +305,19 @@ const AdminBlogs = () => {
                     console.log(blog._id,'from update button')
 
                   }}
-                  className="w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="w-1/3 pr-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Edit
                 </button>
-              </div>
-            </div>
+                </td>
+                <td>
 
-            <div className="flex flex-col justify-around h-full">
-              <h1 className="text-3xl font-semibold">{blog.title}</h1>
-              <p>{blog.description}</p>
-            </div>
-          </div>
-        ))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 };

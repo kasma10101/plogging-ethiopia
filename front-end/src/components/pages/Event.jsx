@@ -24,7 +24,7 @@ function Event() {
       <h1 className='font-bold text-3xl'>Events</h1>
     <div className='grid grid-cols-1 sm:grid-cols-3 items-center justify-center'>
       {Event.map((event,index)=>(
-        <div className='m-5 text-green-500'>
+        <div className='m-5 text-green-500 bg-green-500'>
           <img className='max-w-[300px] my-3 min-w-20'
           src={`http://localhost:4532/${event.imageUrl}`}
            alt="event" />

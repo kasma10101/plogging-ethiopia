@@ -101,11 +101,11 @@ const AdminGallery = () => {
   }
 
   return (
-    <section className="w-full grid place-items-center gap-5">
+    <section className="w-full -mt-24 grid place-items-center gap-5">
 
-      <h1 className="text-5xl pb-4 border-b-2 w-fit">
+      {/* <h1 className="text-5xl pb-4 border-b-2 w-fit">
         Gallery
-      </h1>
+      </h1> */}
       <button
         onClick={()=>{setFormAppear(true)}}
         className="w-fit bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
@@ -182,19 +182,44 @@ const AdminGallery = () => {
       }
 
       {
-        !isLoading && error === null && gallery != null &&
-        gallery.gallery.map((image, index)=> {
-          return (
-            <div className="grid grid-cols-2 place-items-center">
-              <img className="w-[150px]" key={index} src={`http://localhost:4532/${image.imageUrl}`} alt="garbage" />
-              <button
-                onClick={() => handleDelete(image._id)}
-                className=" h-fit w-fit bg-red-500 w-fit hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Delete
-              </button>
-            </div>
-          )
-        })
+        <div  className="relative flex items-center justify-center overflow-x-auto w-full h-full">
+        <table className="w-1/2   text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Image
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {!isLoading && error === null && gallery?.gallery?.map((image, index) => (
+              <tr key={index} className="bg-white  dark:bg-gray-800 dark:border-gray-700">
+              
+                <td className="px-6 py-4">
+                <img className='max-h-20  max-w-32 min-h-14'
+                src={`http://localhost:4532/${image.imageUrl}`}
+                alt={"member"}
+              />                    </td>
+                <td>
+                <button
+                  onClick={() => handleDelete(image._id)}
+                  className="w-1/3 mr-2  bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Delete
+                </button>
+              
+                </td>
+                <td>
+
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       }
     </section>
   )
