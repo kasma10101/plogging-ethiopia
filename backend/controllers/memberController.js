@@ -106,25 +106,9 @@ const deleteEvent = async(req,res) =>{
 
 createAdminEvent = async function(req, res, next) {
   console.log(req.body)
-  const {
-   name,
-   description,
-   date,
-   place,
-   image
-  } = req.body
  try{
-  if (req.file) {
-    image = req.file.filename;
-}
-// console.log(image,'file')
-   const event = new AdminEvent({
-     name:name,
-     description:description,
-     date:date,
-    place:place,
-    image:image
-    });
+
+   const event = new AdminEvent(req.body);
    const savedMember= await event.save();
 
    if (!savedMember) {
@@ -132,6 +116,7 @@ createAdminEvent = async function(req, res, next) {
      }
      return res.status(201).json({savedMember});
  } catch (error) {
+  console.log(error)
    res.status(400).send({message: error.message});
  }
 };

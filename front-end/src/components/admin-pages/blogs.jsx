@@ -263,6 +263,8 @@ const AdminBlogs = () => {
                 src={`http://localhost:4532/${blog.imageUrl}`}
                 alt={"blog"}
               />
+                             {console.log(blog,'image')}            
+
               <div className="flex justify-between">
                 <button
                   onClick={() => handleDelete(blog._id)}

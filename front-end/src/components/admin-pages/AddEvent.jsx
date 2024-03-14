@@ -34,21 +34,9 @@ const deleteAddEvent = async (id) => {
   }
 }
 
-const AddAdminEvent = async (formData) => {
-console.log(formData,'in AddEvent')
-  try{
+const AddAdminEvent = async (newFormData) => {
+console.log(newFormData,'in AddEvent')
   
-    const res = await axios.post("http://localhost:4532/members/event/admin",formData);
-          console.log(res.status === 201,'eresere')
-    if (!res.status === 201){
-      throw new Error("An error occurred while adding AddEvent")
-    }
-
-    // const data = await res.json();
-    return res.data;
-  } catch (e) {
-    throw new Error(e)
-  }
 
 }
 
@@ -60,6 +48,7 @@ const AddEvent= () => {
     description:'',
     date:'',
     place:"",
+    image:null,
   });
   const [formAppear, setFormAppear] = useState(false);
 
@@ -86,30 +75,58 @@ const AddEvent= () => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Get the first file
+    if (file) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        image: file,
+      }));
+    }
+  };
 
+  const handleSubmit = async (e) => {
+        e.preventDefault()
     if (formData.name === '' || formData.description === ''|| formData.date === ''){
       toast.error("Please provide the required information")
       return
     }
 
-    const newFormData = new FormData()
-
+    const newFormData = new FormData();
     newFormData.append("name", formData.name);
     newFormData.append("description", formData.description);
     newFormData.append("date", formData.date);
     newFormData.append("place", formData.place);
-
-    try{
-      console.log(formData,'new form data')
-
-      await addMutation.mutateAsync(formData)
-      toast.success("AddEvent added successfully");
-      setFormAppear(false);
-    } catch (e){
-      toast.error("An error occurred while adding AddEvent")
+    
+    if (formData.image) {
+      newFormData.append('image', formData.image);
     }
-  }
+    
+      try{
+        const config = {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      };
+    
+        const res = await axios.post("http://localhost:4532/members/event/admin",newFormData,config);
+              console.log(res.status === 201,'eresere')
+        if (!res.status === 201){
+          toast.error("An error occurred while adding AddEvent")
+
+          throw new Error("An error occurred while adding AddEvent")
+        }
+        toast.success("AddEvent added successfully");
+        setFormAppear(false);
+
+        // return res.data;
+      } catch (e) {
+        toast.error("An error occurred while adding AddEvent")
+
+        throw new Error(e)
+      }      
+    } 
+  
 
   return (
     <section className="w-full -mt-14 grid place-items-center gap-5">
@@ -130,7 +147,7 @@ const AddEvent= () => {
         }}
         className="absolute top-0 h-screen bg-black/20 w-screen grid place-items-center">
   
-        <form className="w-full max-w-[400px] bg-white shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
+        <form onSubmit={handleSubmit} className="w-full max-w-[400px] bg-white shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md"  enctype="multipart/form-data">
           <div className="flex flex-col items-start w-full">
             <label>
                Event Name
@@ -180,18 +197,13 @@ const AddEvent= () => {
               Image
             </label>
             <input
-             value={formData.date}
-              onChange={handleChange}
-              name=""
+              onChange={handleFileChange}
+              name="image"
               type="file"
               className="p-2 rounded-md w-full border-input border-2" />
           </div>
 
-          <button
-            onClick={(e)=>{
-              e.preventDefault();
-              handleSubmit();
-            }}
+          <button type="submit"
             className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
             {
               addMutation.isLoading &&

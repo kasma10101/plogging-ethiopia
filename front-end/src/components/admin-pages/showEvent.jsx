@@ -25,7 +25,7 @@ function ShowEvent() {
     console.log(response.status === 200,'in the delete')
     if(response.status === 200){
       toast.success("Event successfully deleted!")
-    }else{
+    }else if(response.status === 500 || response.status === 400){
       toast.error("error occurred while deleting")
 
     }
@@ -58,6 +58,9 @@ return formattedDate
                   Date
               </th>
               <th scope="col" className="px-6 py-3">
+                  Image
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Actions
               </th>
             </tr>
@@ -78,6 +81,13 @@ return formattedDate
                 <td className="px-6 py-4">
                   {formatter(member.date)}
                 </td>
+                <td className="px-6 py-4">
+                <img
+                src={`http://localhost:4532/${member.imageUrl}`}
+                alt={"member"}
+              />    
+               {/* {console.log(member,'image')}             */}
+               </td>
                 <td>
                   <button
                     onClick={() => handleDelete(member._id)}

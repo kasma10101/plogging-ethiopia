@@ -5,7 +5,7 @@ const adminEventSchema = new mongoose.Schema({
     description:String,
     date:String,
    place:String,
-   image:String
+   imageUrl:String
 });
 
 const adminEventModel = mongoose.model('adminEvent', adminEventSchema);
