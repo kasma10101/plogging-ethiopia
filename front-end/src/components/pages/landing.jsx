@@ -21,7 +21,7 @@ import Aos from 'aos'
 
 const fetchBlogs = async () => {
   try{
-    const response = await fetch("https://backend.ploggingethiopia.org/blogs");
+    const response = await fetch("http://localhost:4532/blogs");
     if (!response.ok) {
       throw new Error('Failed to update task completion');
     }
@@ -313,44 +313,47 @@ const Landing = () => {
         {
           !isLoading && error === null && blogs != null &&
           <div className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-            {
-              blogs.blogs.map((blog, index)=>{
-                return (
-                  <a href={blog.link ? blog.link : ""}>
-                    <div
-                      key={index}
-                      className="felx flexcol w-full place-items-center cursor-pointer"
-                    >
-                      <div className="flex flex-col gap-2 w-full max-w-[340px]">
-                        <img className="w-full" src={`https://backend.ploggingethiopia.org/${blog.imageUrl}`} alt={"blog"} />
-                        <div className="flex justify-between w-full">
-                          <p>
-                            {
-                              timeAgo(blog.createdAt)
-                            }
-                          </p>
-                          <span className="flex items-center hover:text-green-600 text-green-400">
-                            Read More ->
-                          </span>
-                        </div>
-                      </div>
-
+          {
+            blogs.blogs.map((blog, index)=>{
+              return (
+                <a href={blog.link ? blog.link : ""}>
+                  <div
+                    key={index}
+                    className="felx flexcol w-full place-items-center cursor-pointer"
+                  >
+                    <div className="flex flex-col gap-2 w-full max-w-[340px]">
+                      <img className="w-full max-w-[500px] max-h-[200px]" src={`http://localhost:4532/${blog.imageUrl}`} alt={"blog"} />
+                      <div className="flex flex-col justify-between w-full">
+                       
                       <div className="flex flex-col justify-around h-fit py-4 gap-4">
-                        <h1 className="text-3xl font-semibold">
-                          {blog.title}
-                        </h1>
+                      <h1 className="text-3xl font-semibold">
+                        {blog.title}
+                      </h1>
+                      {/* <p>
+                        {
+                          blog.description
+                        }
+                      </p> */}
+                    </div>
+
                         <p>
                           {
-                            blog.description
+                            timeAgo(blog.createdAt)
                           }
                         </p>
+                        <span className="flex  items-center hover:text-green-600 text-green-400">
+                         <Link to='/detail' state={{content:blog.description,title:blog.title,image:blog.imageUrl}}>
+                         Read More -->
+                         </Link>
+                        </span>
                       </div>
                     </div>
-                  </a>
-                )
-              })
-            }
-          </div>
+                  </div>
+                </a>
+              )
+            })
+          }
+        </div>
         }
 
       </section>

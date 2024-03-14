@@ -24,10 +24,11 @@ function Event() {
       <h1 className='font-bold text-3xl'>Events</h1>
     <div className='grid grid-cols-1 sm:grid-cols-3 items-center justify-center'>
       {Event.map((event,index)=>(
-        <div className='m-5 text-green-500 bg-green-500'>
-          <img className='max-w-[300px] my-3 min-w-20'
+        <div className='m-5 rounded-sm  text-white bg-green-500'>
+          <img className='max-w-[350px] mb-3 min-w-20'
           src={`http://localhost:4532/${event.imageUrl}`}
            alt="event" />
+           <div className='p-5'>
         <h2 className='text-2xl my-3 capitalize font-semibold '>{event.name}</h2>
         <div className='flex '>
         <p className='mr-2 '><span className='font-semibold '>Place</span>:{event.place}</p>
@@ -36,6 +37,7 @@ function Event() {
         </div>
        
         <p><span className='font-semibold'>Description:</span> {event.description}</p>
+        </div>
         </div>    
       ))}
     </div>
