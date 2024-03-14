@@ -17,6 +17,7 @@ import axios from 'axios'
 import { toast } from "react-toastify";
 import Event from "./Event";
 import { useEffect } from "react";
+import 'aos/dist/aos.css';
 import Aos from 'aos'
 
 const fetchBlogs = async () => {
@@ -86,13 +87,13 @@ const Landing = () => {
     }
   }
   return (
-    <main className="w-full flex flex-col items-center gap-20 pb-20">
+    <main data-aos="fade-up" className="w-full flex flex-col items-center gap-20 pb-20">
       <Hero />
 
-      <section className="flex flex-col justify-between w-[90%] text-left gap-10">
+      <section data-aos="fade-up" className="flex flex-col justify-between w-[90%] text-left gap-10">
         <div className="flex md:flex-row flex-col justify-between items-center w-full">
 
-          <div className="flex flex-col items-center gap-10 md:w-[60%] w-full md:order-1 order-2">
+          <div data-aos="fade-up" className="flex flex-col items-center gap-10 md:w-[60%] w-full md:order-1 order-2">
             <h1 className="text-5xl font-bold text-center">
               Our Story
             </h1>
@@ -101,13 +102,13 @@ const Landing = () => {
             </p>
           </div>
 
-          <img
+          <img data-aos="fade-up"
             className="order-1 md:order-2"
             alt="Plogging Ethiopia"
             src={story1}
           />
         </div>
-        <div className="flex md:flex-row flex-col justify-between items-center w-full">
+        <div data-aos="fade-up" className="flex md:flex-row flex-col justify-between items-center w-full">
           <img
             className=""
             alt="Plogging Ethiopia"
@@ -125,7 +126,7 @@ const Landing = () => {
 
         </div>
         <div className="flex justify-between items-center w-full md:flex-row flex-col">
-          <div className="flex flex-col items-start md:w-[50%] w-[90%] gap-10 md:order-1 order-2">
+          <div data-aos="fade-up" className="flex flex-col items-start md:w-[50%] w-[90%] gap-10 md:order-1 order-2">
             <h1 className="text-5xl font-bold text-center">
               Mission
             </h1>
@@ -134,20 +135,20 @@ const Landing = () => {
             </p>
           </div>
 
-          <img
+          <img data-aos="fade-up"
             className="rounded-full order-1 md:order-2"
             alt="Plogging Ethiopia"
             src={story3}
           />
         </div>
-        <div className="flex justify-between items-center w-full md:flex-row flex-col">
+        <div  data-aos="fade-up" className="flex justify-between items-center w-full md:flex-row flex-col">
           <img
             className="rounded-full"
             alt="Plogging Ethiopia"
             src={story4}
           />
 
-          <div className="flex flex-col items-start md:w-[50%] w-[90%] gap-10">
+          <div data-aos="fade-up" className="flex flex-col items-start md:w-[50%] w-[90%] gap-10">
             <h1 className="text-5xl font-bold text-center">
               Our Impact
             </h1>
@@ -158,10 +159,10 @@ const Landing = () => {
         </div>
       </section>
 
-      <section id="aboutus" className="relative grid md:grid-cols-2  w-[90%] md:h-[85vh]">
-        <img src={story5} alt={"story"} />
+      <section data-aos="fade-up" id="aboutus" className="relative grid md:grid-cols-2  w-[90%] md:h-[85vh]">
+        <img src={story5} data-aos="fade-up" alt={"story"} />
 
-        <div className="flex flex-col h-full">
+        <div data-aos="fade-up" className="flex flex-col h-full">
           <h1 className="text-xl font-bold text-center">
             About us
           </h1>
@@ -170,10 +171,10 @@ const Landing = () => {
           </h1>
         </div>
 
-        <div className="md:absolute right-0 top-1/3 md:w-4/5 w-full flex flex-col md:flex-row justify-around gap-5">
-          <img src={story6} className="" alt={"story"} />
+        <div data-aos="fade-up" className="md:absolute right-0 top-1/3 md:w-4/5 w-full flex flex-col md:flex-row justify-around gap-5">
+          <img src={story6} data-aos="fade-up" className="" alt={"story"} />
 
-          <div className="flex flex-col items-end md:w-3/4 w-[90%] gap-10 text-left">
+          <div data-aos="fade-up" className="flex flex-col items-end md:w-3/4 w-[90%] gap-10 text-left">
             <p>
               Embark on ajourney of impact and sustainability with Plogging-Ethiopia! Astrailblazers in the movement for a greener Ethiopia, we are more thana voluntary initiative — we are a community dedicated totransforming lives and our environment, one stride at a time.
             </p>
@@ -186,11 +187,11 @@ const Landing = () => {
         </div>
       </section>
 
-      <section
+      <section data-aos="fade-up"
         className="w-full grid place-items-center mt-20 landing-form"
       >
 
-        <div className="flex flex-col justify-between items-center w-[90%]">
+        <div data-aos="fade-up" className="flex flex-col justify-between items-center w-[90%]">
           <h1 className="text-2xl">
             Get Involved
           </h1>
@@ -199,9 +200,9 @@ const Landing = () => {
             Ready to make a difference? Explore ways to engage, support, or collaborate with Plogging-Ethiopia.
           </p>
 
-          <form onSubmit={handleSubmit} className="md:w-[80%] w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
+          <form data-aos="fade-up" onSubmit={handleSubmit} className="md:w-[80%] w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
 
-            <div className="flex flex-col items-start w-full">
+            <div data-aos="fade-up" className="flex flex-col items-start w-full">
               <label id='name'>
                 Full Name
               </label>
@@ -242,7 +243,7 @@ const Landing = () => {
           </form>
         </div>
 
-        <div className="flex flex-col items-center gap-3">
+        <div data-aos="fade-up" className="flex flex-col items-center gap-3">
 
           <h3>
             Join the Movement
@@ -256,10 +257,10 @@ const Landing = () => {
         </div>
       </section>
 
-      <section
+      <section data-aos="fade-up"
         className="founder-message place-items-center w-[90%] gap-3"
       >
-        <div className="flex flex-col text-left gap-10">
+        <div data-aos="fade-up" className="flex flex-col text-left gap-10">
           <h1 className="text-2xl font-semibold">
             Message From Founder of Plogging Ethiopia
           </h1>
@@ -286,10 +287,10 @@ const Landing = () => {
           </p>
         </div>
 
-        <img src={founder} className="w-full h-full object-cover" alt={"Mr. Firew kefyalew"} />
+        <img src={founder} data-aos="fade-up" className="w-full h-full object-cover" alt={"Mr. Firew kefyalew"} />
       </section>
-       <Event />
-      <section className="w-[90%] my-10 flex flex-col gap-10">
+       <Event data-aos="fade-up" />
+      <section  data-aos="fade-up" className="w-[90%] my-10 flex flex-col gap-10">
 
         <h1 className="text-3xl">
           Featured Blogs
@@ -312,7 +313,7 @@ const Landing = () => {
         }
         {
           !isLoading && error === null && blogs != null &&
-          <div className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+          <div data-aos="fade-up" className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
           {
             blogs.blogs.map((blog, index)=>{
               return (
@@ -358,7 +359,7 @@ const Landing = () => {
 
       </section>
 
-      <section className="w-full flex flex-col items-center">
+      <section data-aos="fade-up" className="w-full flex flex-col items-center">
         <FAQ />
       </section>
     </main>
