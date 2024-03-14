@@ -1,11 +1,14 @@
 import Navbar from "../commons/navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation} from "react-router-dom";
 import Footer from "../commons/footer";
 
 const Layout = () => {
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/admin')
   return (
     <div id="app" className="relative font-Poppins flex flex-col items-center">
-      <Navbar />
+      {!isAdminRoute && <Navbar />
+}
       <Outlet />
       <Footer />
     </div>

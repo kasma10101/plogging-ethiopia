@@ -16,10 +16,10 @@ export default function AdminPage() {
   return (
     <section className="w-full min-h-[70vh] flex flex-col items-center gap-32 px-14">
 
-      <h1 className="text-5xl pb-4 border-b-2 w-fit text-nowrap">
+      <h1 className="text-2xl mt-10 pb-4 border-b-2 w-fit text-nowrap">
         Admin Dashboard
       </h1>
-      <nav className="w-2/3">
+      <nav className="w-2/3 -mt-24">
         <ul className="flex items-center gap-10 justify-center w-full">
           <li className="w-fit text-nowrap flex flex-col hover:text-green-500">
             <Link to={"/admin/blogs"}>
