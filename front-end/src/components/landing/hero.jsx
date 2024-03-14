@@ -4,7 +4,8 @@ import headerRight from "../../assets/header-left.png";
 
 const Hero = () => {
   return (
-    <div className="grid md:grid-cols-2 w-full text-white font-Poppins py-10 pl-5"
+    <div  data-aos="fade-up"
+    className="grid md:grid-cols-2 w-full text-white font-Poppins py-10 pl-5"
       style={{
         backgroundImage: `url(${landingHero})`,
         backgroundSize: "cover",

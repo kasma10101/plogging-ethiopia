@@ -16,6 +16,8 @@ import { useState } from "react";
 import axios from 'axios'
 import { toast } from "react-toastify";
 import Event from "./Event";
+import { useEffect } from "react";
+import Aos from 'aos'
 
 const fetchBlogs = async () => {
   try{
@@ -42,6 +44,14 @@ const Landing = () => {
 
   }])
     
+  useEffect(() => {
+    Aos.init({
+      duration: 2000, // Global duration of animations in milliseconds
+      once: false, // Whether animation should happen only once - while scrolling down
+    });
+    Aos.refresh();
+
+  }, []);
   
   const handleChange = (event) => {
     const { name, value} = event.target;
