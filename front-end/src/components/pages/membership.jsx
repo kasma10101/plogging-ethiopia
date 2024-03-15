@@ -72,9 +72,12 @@ const Membership = ()=>{
     };
 
   return (
-    <section id={"start"} className="flex flex-col items-center gap-20 w-[90%] pb-10" >
+    <section 
+    id={"start"} className="flex flex-col items-center gap-20 w-[90%] pb-10" >
 
-      <div className="w-full flex flex-col gap-5 items-center">
+      <div
+        data-aos="fade-down"
+        className="w-full flex flex-col gap-5 items-center">
         <h1 className="text-5xl pb-4 border-b-2 w-fit">
           Membership
         </h1>
@@ -84,11 +87,16 @@ const Membership = ()=>{
       </div>
 
       <div
+      
         className="grid md:grid-cols-2 grid-cols-1 w-full gap-10"
       >
-        <img src={story1} className="w-full" alt={"member"} />
+        <img 
+        data-aos="fade-down"
+        src={story1} className="w-full" alt={"member"} />
 
-        <form name="member" className="w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
+        <form 
+        data-aos="fade-down"
+        name="member" className="w-full shadow-lg shadow-form p-10 flex flex-col gap-5 rounded-md">
 
           <div className="flex flex-col items-start w-full">
             <label id="member">

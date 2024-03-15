@@ -25,8 +25,8 @@ function Event() {
     <div className='grid grid-cols-1 sm:grid-cols-3 items-center justify-center'>
       {Event.map((event,index)=>(
         <div data-aos="fade-up"
-        data-aos-delay="${index * 500}"
-         className='m-5 rounded-sm  text-white bg-green-500'>
+        data-aos-delay={`${index * 200}`} // Delay increases for each item
+        className='m-5 rounded-sm  text-white bg-green-500'>
           <img className='max-w-[350px] mb-3 min-w-20'
           src={`http://localhost:4532/${event.imageUrl}`}
            alt="event" />

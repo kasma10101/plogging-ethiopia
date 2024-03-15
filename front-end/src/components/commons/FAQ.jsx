@@ -49,7 +49,10 @@ export default function FAQ() {
 
 
   return (
-    <div className="w-[90%] flex flex-col gap-5">
+    <div
+    data-aos="fade-down"
+
+     className="w-[90%] flex flex-col gap-5">
 
       <h1 className="text-5xl mb-10">
         FAQ?

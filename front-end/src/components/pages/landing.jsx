@@ -313,12 +313,16 @@ const Landing = () => {
         }
         {
           !isLoading && error === null && blogs != null &&
-          <div data-aos="fade-up" className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+          <div data-aos="fade-up"
+          
+          className="w-full grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
           {
             blogs.blogs.map((blog, index)=>{
               return (
                 <a href={blog.link ? blog.link : ""}>
-                  <div
+                  <div 
+                    data-aos="fade-up"
+                    data-aos-delay={`${index * 200}`} // Delay increases for each item
                     key={index}
                     className="felx flexcol w-full place-items-center cursor-pointer"
                   >
