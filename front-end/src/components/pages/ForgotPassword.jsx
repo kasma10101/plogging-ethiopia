@@ -22,6 +22,7 @@ function ForgotPassword() {
     } else {
       console.log('inseide  ')
       const res = await axios.post("http://localhost:4532/blogs/reset",emailData);
+      console.log(res.status)
       setEmailData({email:""})
       if(res.status ===200){
         console.log(res.data.id,'id nw')
@@ -30,6 +31,7 @@ function ForgotPassword() {
          }
       console.log(res,'resss')
       if(res.status === 400 || res.status === 404){
+        console.log('404',res.status)
         toast.error("Error occurred",res.response.statusText)
         console.log(res.response.statusText)
       }

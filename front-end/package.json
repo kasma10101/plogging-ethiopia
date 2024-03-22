@@ -1,6 +1,6 @@
 {
   "name": "plogging",
-  "homepage": "https://ploggingethiopia.org",
+  "homepage": "https://ploggingethiopia.org", 
   "version": "0.1.0",
   "private": true,
   "dependencies": {
