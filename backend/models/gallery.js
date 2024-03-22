@@ -1,10 +1,13 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
 
-const gallerySchema = new mongoose.Schema({
-  imageUrl: String,
-  description: String,
+const Gallery = sequelize.define('Gallery', {
+    imageUrl: {
+        type: DataTypes.STRING
+    },
+    description: {
+        type: DataTypes.STRING
+    }
 });
 
-const galleryModel = mongoose.model('gallery', gallerySchema);
-
-module.exports = galleryModel;
+module.exports = Gallery;

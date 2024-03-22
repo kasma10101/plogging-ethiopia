@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
 
-const subSchema = new mongoose.Schema({
-  email:String,
-  
+const Sub = sequelize.define('Sub', {
+    email: {
+        type: DataTypes.STRING
+    }
 });
 
-const subModel = mongoose.model('sub', subSchema);
-
-module.exports = subModel;
+module.exports = Sub;

@@ -1,12 +1,24 @@
-const mongoose = require('mongoose');
-
-const blogSchema = new mongoose.Schema({
-  title: String,
-  imageUrl: String,
-  description: String,
-  createdAt : { type : Date, default: Date.now }
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize'); 
+const Blog = sequelize.define('Blog', {
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false, 
+    },
+    imageUrl: {
+        type: DataTypes.STRING,
+        allowNull: true, 
+    },
+    description: {
+        type: DataTypes.TEXT, 
+        allowNull: true,
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW, 
+    }
+}, {
+    
 });
 
-const blogModel = mongoose.model('blog', blogSchema);
-
-module.exports = blogModel;
+module.exports = Blog;

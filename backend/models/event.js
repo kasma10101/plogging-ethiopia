@@ -1,14 +1,25 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
 
-const eventSchema = new mongoose.Schema({
-  name: String,
-  email:String,
-  who: String,
-  date: String,
-  agreement:String,
-  createdBy:String,
+const Event = sequelize.define('Event', {
+    name: {
+        type: DataTypes.STRING
+    },
+    email: {
+        type: DataTypes.STRING
+    },
+    who: {
+        type: DataTypes.STRING
+    },
+    date: {
+        type: DataTypes.STRING
+    },
+    agreement: {
+        type: DataTypes.STRING
+    },
+    createdBy: {
+        type: DataTypes.STRING
+    }
 });
 
-const eventModel = mongoose.model('event', eventSchema);
-
-module.exports = eventModel; 
+module.exports = Event;

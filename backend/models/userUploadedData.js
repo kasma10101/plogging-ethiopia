@@ -1,13 +1,23 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
 
-const userUploadedDataSchema = new mongoose.Schema({
-  name: String,
-  fileName: String,
-  fileType: String,
-  description: String,
-  createdAt : { type : Date, default: Date.now }
+const UserUploadedData = sequelize.define('UserUploadedData', {
+    name: {
+        type: DataTypes.STRING
+    },
+    fileName: {
+        type: DataTypes.STRING
+    },
+    fileType: {
+        type: DataTypes.STRING
+    },
+    description: {
+        type: DataTypes.TEXT
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
 });
 
-const userUploadedDataModel = mongoose.model('userUploadedData', userUploadedDataSchema);
-
-module.exports = userUploadedDataModel;
+module.exports = UserUploadedData;
