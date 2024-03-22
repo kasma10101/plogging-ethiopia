@@ -5,7 +5,7 @@ UserUploadedData = require('../models/userUploadedData');
 const getGallerys = async function(req, res, next) {
   try{
 
-    const gallerys = await Gallery.find();
+    const gallerys = await Gallery.findCountAll();
 
 
     res.send(
@@ -21,7 +21,7 @@ const getGallerys = async function(req, res, next) {
 
 const getGallery = async function(req, res, next) {
   try{
-    const gallery = await Gallery.findById(req.params.id);
+    const gallery = await Gallery.findByPk(req.params.id);
     res.send(gallery);
 
   } catch (error) {

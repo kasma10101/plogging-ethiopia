@@ -1,84 +1,110 @@
-// Assuming Blog and Member are Sequelize models
-const Blog = require('../models/Blog'); // Adjust path as necessary
-const Member = require('../models/Member');
-const cloudinary = require('cloudinary').v2;
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const Gallery = require('../models/gallery'); // Adjust the path as necessary
+const UserUploadedData = require('../models/userUploadedData');
 
-// Pagination and fetching blogs
-const getBlogs = async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 10;
-  const offset = (page - 1) * limit;
-
+const getGallerys = async (req, res) => {
   try {
-    const { count, rows } = await Blog.findAndCountAll({
-      offset,
-      limit,
-    });
-
+    const gallerys = await Gallery.findAll();
     res.send({
-      blogs: rows,
-      totalCount: count,
+      gallery: gallerys,
+      totalCount: gallerys.length,
     });
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
 };
 
-// Fetch a single blog
-const getBlog = async (req, res) => {
+const getGallery = async (req, res) => {
   try {
-    const blog = await Blog.findByPk(req.params.id);
-    if (blog) {
-      res.send(blog);
+    const gallery = await Gallery.findByPk(req.params.id);
+    if (gallery) {
+      res.send(gallery);
     } else {
-      res.status(404).send({ message: 'Blog not found' });
+      res.status(404).send({ message: 'Gallery not found' });
     }
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
 };
 
-// Create a new blog
-const createBlog = async (req, res) => {
+const createGallery = async (req, res) => {
   try {
-    const blog = await Blog.create(req.body);
-    res.send(blog);
+    const gallery = await Gallery.create(req.body);
+    res.send(gallery);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
 };
 
-// Update an existing blog
-const updateBlog = async (req, res) => {
+const updateGallery = async (req, res) => {
   try {
-    const [updated] = await Blog.update(req.body, {
+    const [updated] = await Gallery.update(req.body, {
       where: { id: req.params.id },
     });
     if (updated) {
-      const updatedBlog = await Blog.findByPk(req.params.id);
-      res.send(updatedBlog);
+      const updatedGallery = await Gallery.findByPk(req.params.id);
+      res.send(updatedGallery);
     } else {
-      res.status(404).send({ message: 'Blog not found' });
+      res.status(404).send({ message: 'Gallery not found' });
     }
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
 };
 
-// Delete a blog
-const deleteBlog = async (req, res) => {
+const deleteGallery = async (req, res) => {
   try {
-    const deleted = await Blog.destroy({
+    const deleted = await Gallery.destroy({
       where: { id: req.params.id },
     });
     if (deleted) {
-      res.send({ message: 'Blog deleted' });
+      res.send({ message: 'Gallery deleted' });
     } else {
-      res.status(404).send({ message: 'Blog not found' });
+      res.status(404).send({ message: 'Gallery not found' });
     }
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
+};
+const uploadFiles = async (req, res) => {
+  try {
+    const userUploadedData = await UserUploadedData.create(req.body);
+    res.send(userUploadedData);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const getUploadedFiles = async (req, res) => {
+  try {
+    const userUploadedData = await UserUploadedData.findAll();
+    res.send(userUploadedData);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+const deleteUploadedFile = async (req, res) => {
+  try {
+    const deleted = await UserUploadedData.destroy({
+      where: { id: req.params.id },
+    });
+    if (deleted) {
+      res.send({ message: 'File deleted' });
+    } else {
+      res.status(404).send({ message: 'File not found' });
+    }
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+module.exports = {
+  getGallerys,
+  getGallery,
+  createGallery,
+  updateGallery,
+  deleteGallery,
+  uploadFiles,
+  getUploadedFiles,
+  deleteUploadedFile,
 };
