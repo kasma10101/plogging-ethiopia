@@ -170,6 +170,7 @@ const getAdmin = async (req, res) => {
 
 
 const MemberLogin = async function(req, res, next) {
+  console.log(req.body,'login')
   try{
     const member = await Member.findOne({ where: { email: req.body.email } });
     if(member) {

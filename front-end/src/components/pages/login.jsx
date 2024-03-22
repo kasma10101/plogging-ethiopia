@@ -50,7 +50,7 @@ const Login = ()=> {
       toast.error("Please fill all the fields");
       return
     }
-
+   console.log(formData,'login')
     try{
       await mutation.mutateAsync(formData);
       console.log(mutation,'mutation')
