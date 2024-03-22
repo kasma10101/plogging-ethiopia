@@ -35,7 +35,7 @@ const getMembers = async function(req, res, next) {
 
 const getMember = async function(req, res, next) {
   try{
-    const member = await Member.findById(req.params.id);
+    const member = await Member.findByPk(req.params.id);
     res.send(member);
 
   } catch (error) {
@@ -53,76 +53,61 @@ const createMember = async function(req, res, next) {
     res.status(400).send({message: error.message});
   }
 };
- createEvent = async function(req, res, next) {
-   const {  name,
-    email,
-    who,
-    date,
-    agreement,
-    createdBy,} = req.body
-  try{
-    const event = new Event({
-      email:email,
-      who:who,
-      date:date,
-      agreement:agreement,
-      createdBy:'user',
+const createEvent = async (req, res) => {
+  try {
+    const event = await Event.create({
+      ...req.body,
+      createdBy: 'user',
     });
-    const savedMember= await event.save();
-
-    if (!savedMember) {
-        return res.status(400).json({ message: "cannot be created " });
-      }
-      return res.status(201).json({savedMember});
+    res.status(201).json(event);
   } catch (error) {
     res.status(400).send({message: error.message});
   }
 };
 
-const getEvent = async(req,res) =>{
-   
-     try {
-         const event  = await Event.find();
-           if(!event){
-            return res.status(404).json('not found')
-           }
-           return res.status(200).json(event)
-     } catch (error) {
-      return re.status(500).json(error)
-     }
-}
 
-const deleteEvent = async(req,res) =>{
-    try {
-       const event = await Event.findByIdAndDelete(req.params.id)
-       if(!event){
-       return res.status(500).json({message:'error occurred'})
-       }
-       return res.status(200).json({message:"deleted"})
-    } catch (error) {
-       return res.status(500).json(error)
+const getEvent = async (req, res) => {
+  try {
+    const events = await Event.findAll(); 
+    if (events.length === 0) {
+      return res.status(404).json('Not found');
     }
-}
-
-createAdminEvent = async function(req, res, next) {
-  console.log(req.body)
- try{
-
-   const event = new AdminEvent(req.body);
-   const savedMember= await event.save();
-
-   if (!savedMember) {
-       return res.status(400).json({ message: "cannot be created " });
-     }
-     return res.status(201).json({savedMember});
- } catch (error) {
-  console.log(error)
-   res.status(400).send({message: error.message});
- }
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json(error.message); // Adjusted to send back error.message for consistency
+  }
 };
+
+
+const deleteEvent = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deleted = await Event.destroy({
+      where: { id: id }
+    });
+    if (!deleted) {
+      return res.status(404).json({message: 'Event not found'});
+    }
+    res.status(200).json({message: "Deleted successfully"});
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+
+const createAdminEvent = async (req, res) => {
+  try {
+    const event = await AdminEvent.create(req.body);
+    res.status(201).json(event);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({message: error.message});
+  }
+};
+
 const getAdminEvent = async(req,res) =>{
    try {
-      const event = await AdminEvent.find();
+      const event = await AdminEvent.findAll();
       if(!event){
         return res.status(404).json('not found')
       }
@@ -131,66 +116,62 @@ const getAdminEvent = async(req,res) =>{
     return res.status(500).json(error)
    }
 }
-const deleteAdminEvent = async(req,res) =>{
+const deleteAdminEvent = async (req, res) => {
   try {
-     const event = await AdminEvent.findByIdAndDelete(req.params.id)
-     if(!event){
-     return res.status(500).json({message:'error occurred'})
-     }
-     return res.status(200).json({message:"deleted"})
-  } catch (error) {
-     return res.status(500).json(error)
-  }
-}
- const createAdmin= async (req,res)=>{
-  // console.log(req.body)
-  const {
-      name,
-      email,
-      password,
-      role,
-  } = req.body;
-  // console.log(req.body)
-  try {
-const member= new Member({
-          name:name,
-          email:email,
-          role:role,
-          password:password,
-          phoneNumber:'091999991'
-
-      })
-      const savedMember= await member.save();
-
-      if (!savedMember) {
-          return res.status(400).json({ message: "cannot be created " });
-        }
-        return res.status(201).json({savedMember});
+    const id = req.params.id;
+    const result = await AdminEvent.destroy({
+      where: { id: id }
+    });
     
-
-  } catch (error) {
-      console.log(error)
+    if (result === 0) {
+      return res.status(404).json({ message: 'Admin Event not found' });
+    }
     
+    return res.status(200).json({ message: "Deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
-}
+};
 
-const getAdmin = async(req,res) =>{
+const createAdmin = async (req, res) => {
+  const { name, email, password, role } = req.body;
 
   try {
-     const admins = await Member.find()
-     if(!admins){
-      return res.status(404).json({message:"not found"})
-     }
+    const newAdmin = await Member.create({
+      name: name,
+      email: email,
+      role: role,
+      password: password,
+      phoneNumber: '091999991' 
+    });
 
-     return res.status(200).json(admins)
+    return res.status(201).json({ newAdmin });
   } catch (error) {
-    
+    console.log(error);
+    return res.status(400).json({ message: "Could not create admin", error: error.message });
   }
-}
+};
+
+const getAdmin = async (req, res) => {
+  try {
+    const admins = await Member.findAll({
+    });
+
+    if (admins.length === 0) {
+      return res.status(404).json({ message: "No admins found" });
+    }
+
+    return res.status(200).json(admins);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "An error occurred while fetching the admins", error: error.message });
+  }
+};
+
 
 const MemberLogin = async function(req, res, next) {
   try{
-    const member = await Member.findOne({email: req.body.email, password: req.body.password});
+    const member = await Member.findOne({ where: { email: req.body.email } });
     if(member) {
       return res.status(200).send(member);
     } else {
@@ -202,23 +183,37 @@ const MemberLogin = async function(req, res, next) {
 }
 
 const updateMember = async function(req, res, next) {
+  const { id } = req.params;
+  try {
+    const [updated] = await Member.update(req.body, {
+      where: { id: id }
+    });
 
-  try{
-    const member = await Member.findByIdAndUpdate(req.params.id, req.body, {new: true});
-    res.send(member)
+    if (!updated) {
+      return res.status(404).send({message: 'Member not found'});
+    }
 
-  } catch(error){
+    const updatedMember = await Member.findByPk(id);
+    if (!updatedMember) {
+      return res.status(404).send({message: 'Member not found after update'});
+    }
+
+    res.send(updatedMember);
+  } catch (error) {
     res.status(400).send({message: error.message});
   }
 };
 
 const deleteMember = async function(req, res, next) {
-
+ const id = req.params.id
   try {
     // console.log(req.params.id)
-    const member = await Member.findByIdAndDelete(req.params.id);
-    if(!member){
-      return res.status(404).json({message:"not found"})
+
+    const member = await Member.destroy({
+      where:{id:id}
+    });
+    if (deleted === 0) {
+      return res.status(404).json({message: "Member not found"});
     }
     return res.send({member:"deleted successfully"});
   } catch (error) {
@@ -233,25 +228,21 @@ const searchMember = async function(req, res, next){
     res.status(500).send({message: e.message})
   }
 }
-const addSub = async(req,res) =>{
+const addSub = async (req, res) => {
   try {
-     const sub = new Sub(req.body)
-      const savedSub = await sub.save();
-      if(!savedSub){
-        return res.status(400).json('error')
-      }
-      return res.status(201).json('created')
+    const savedSub = await Sub.create(req.body);
+    return res.status(201).json('created');
   } catch (error) {
-    return res.status(400).json(error)
-
+    return res.status(400).json(error);
   }
-}
+};
+
 
 const getSub = async(req,res) =>{
   try {
-      const sub = await Sub.find();
+      const sub = await Sub.findAll();
        
-       if(!sub){
+       if(sub.length === 0){
 
         return res.status(404).json('not found sub')
        }
@@ -263,8 +254,11 @@ const getSub = async(req,res) =>{
 
 const deleteSub = async(req,res) =>{
   try {
-      const sub = await Sub.findByIdAndDelete(req.params.id)
-      if(!sub){
+      const id = req.params.id
+      const sub = await Sub.destroy({
+        where:{id:id}
+      })
+      if(sub.length === 0){
         return res.status(404).json('sub not found')
       }
       return res.status(200).json('deleted')
@@ -277,7 +271,7 @@ const forgotPassword =  async(req,res) => {
   let error = [];
 
   try {
-    const user = await Member.findOne({ email });
+    const user = await Member.findOne({where: email });
     if (email !== user.email) {
       error.push({ message: "email not registered" });
       return res.send({ message: "no user found" });
@@ -331,7 +325,7 @@ router.get("/reset-password/:id/:token", async (req, res) => {
     error = [];
  console.log(' here is id')
   try {
-    user = await Member.findById(id);
+    user = await Member.findByPk(id);
     if (!user) {
       error.push({ msg: "something went wrong" });
       return res.render('front-page/forgot-password',{error});
