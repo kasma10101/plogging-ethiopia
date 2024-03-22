@@ -8,7 +8,7 @@ const adminSchema = new mongoose.Schema({
   isAdmin:{
     type:Boolean,
     default:true
-  }
+  } 
 });
 
 const adminModel = mongoose.model('admin', adminSchema);

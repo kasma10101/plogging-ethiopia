@@ -1,110 +1,78 @@
-const Gallery = require('../models/gallery'); // Adjust the path as necessary
-const UserUploadedData = require('../models/userUploadedData');
+// Importing the models
+const Blog = require('../models/blog'); // Assuming this now points to your Sequelize model
+const Member = require('../models/member'); // Assuming this now points to your Sequelize model
+const cloudinary = require('cloudinary').v2;
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
-const getGallerys = async (req, res) => {
-  try {
-    const gallerys = await Gallery.findAll();
-    res.send({
-      gallery: gallerys,
-      totalCount: gallerys.length,
-    });
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
+const getBlogs = async function (req, res, next) {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
 
-const getGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.findByPk(req.params.id);
-    if (gallery) {
-      res.send(gallery);
-    } else {
-      res.status(404).send({ message: 'Gallery not found' });
+    try {
+        const {count, rows} = await Blog.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
+        res.send({
+            blogs: rows,
+            totalCount: count,
+        });
+    } catch (error) {
+        res.status(400).send({message: error.message});
     }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
 };
 
-const createGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.create(req.body);
-    res.send(gallery);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
-
-const updateGallery = async (req, res) => {
-  try {
-    const [updated] = await Gallery.update(req.body, {
-      where: { id: req.params.id },
-    });
-    if (updated) {
-      const updatedGallery = await Gallery.findByPk(req.params.id);
-      res.send(updatedGallery);
-    } else {
-      res.status(404).send({ message: 'Gallery not found' });
+const getBlog = async function (req, res, next) {
+    try {
+        const blog = await Blog.findByPk(req.params.id);
+        res.send(blog);
+    } catch (error) {
+        res.status(400).send({message: error.message});
     }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
 };
 
-const deleteGallery = async (req, res) => {
-  try {
-    const deleted = await Gallery.destroy({
-      where: { id: req.params.id },
-    });
-    if (deleted) {
-      res.send({ message: 'Gallery deleted' });
-    } else {
-      res.status(404).send({ message: 'Gallery not found' });
+const createBlog = async function (req, res, next) {
+    try {
+        const blog = await Blog.create(req.body);
+        res.send(blog);
+    } catch (error) {
+        res.status(400).send({message: error.message});
     }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
-const uploadFiles = async (req, res) => {
-  try {
-    const userUploadedData = await UserUploadedData.create(req.body);
-    res.send(userUploadedData);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
 };
 
-const getUploadedFiles = async (req, res) => {
-  try {
-    const userUploadedData = await UserUploadedData.findAll();
-    res.send(userUploadedData);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-};
-
-const deleteUploadedFile = async (req, res) => {
-  try {
-    const deleted = await UserUploadedData.destroy({
-      where: { id: req.params.id },
-    });
-    if (deleted) {
-      res.send({ message: 'File deleted' });
-    } else {
-      res.status(404).send({ message: 'File not found' });
+const updateBlog = async function (req, res, next) {
+    try {
+        const blog = await Blog.update(req.body, {
+            where: {id: req.params.id},
+            returning: true,
+        });
+        res.send(blog);
+    } catch (error) {
+        res.status(400).send({message: error.message});
     }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
 };
+
+const deleteBlog = async function (req, res, next) {
+    try {
+        await Blog.destroy({
+            where: {id: req.params.id}
+        });
+        res.send({message: 'Blog deleted successfully'});
+    } catch (error) {
+        res.status(400).send({message: error.message});
+    }
+};
+
+// Note: The forgotPassword and resetPassword methods do not directly interact with the blog data and remain more or less the same. However, ensure Member points to the Sequelize model, and adjust methods for finding, updating, or deleting members as needed.
 
 module.exports = {
-  getGallerys,
-  getGallery,
-  createGallery,
-  updateGallery,
-  deleteGallery,
-  uploadFiles,
-  getUploadedFiles,
-  deleteUploadedFile,
+    getBlogs,
+    getBlog,
+    createBlog,
+    updateBlog,
+    deleteBlog,
+    // forgotPassword,
+    // resetPassowrd
 };

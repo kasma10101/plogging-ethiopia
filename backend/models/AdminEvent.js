@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./sequelize'); // Make sure this path points to your Sequelize instance
+const sequelize = require('../sequilize');
 
 const AdminEvent = sequelize.define('AdminEvent', {
     name: {
