@@ -128,7 +128,7 @@ const Footer = ()=>{
         </p>
 
         <p>
-          Powered by <a href="mailto:kasmasolution@gmail.com" className="hover:text-white/70 cursor-pointer">Kasma</a> Tech Solution.
+          Powered by <a href="kasmasolution.com" className="hover:text-white/70 cursor-pointer">Kasma</a> Tech Solution.
         </p>
       </div>
 
